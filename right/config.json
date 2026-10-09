@@ -1,0 +1,35 @@
+{
+  "help": {
+    "text": "Information and services for refugees from Ukraine in Moldova.",
+    "primary": { "label": "Допомога для біженців з України", "sub": "UNHCR Help Moldova, in Ukrainian", "url": "https://help.unhcr.org/moldova/uk/" },
+    "secondary": { "label": "UNHCR Help Moldova (English)", "url": "https://help.unhcr.org/moldova/" }
+  },
+  "calendar": {
+    "title": "Coordination calendar",
+    "subtitle": "Upcoming coordination meetings and events.",
+    "url": "https://docs.google.com/presentation/d/e/2PACX-1vScK7Paq6mfRXN28mPEfotaU3D5B-r979iNP1a-L2NEd-yBO0q70xJg-jbzTh2UwXrGBuLkeqBvi4cu/pub?start=false&loop=false&delayms=3000&slide=id.g29d9704fb09_0_0"
+  },
+  "structure": {
+    "title": "Coordination structure",
+    "subtitle": "Select a group to open its page in the portal.",
+    "document": { "label": "Coordination structure chart (Q1 2026)", "url": "https://data.unhcr.org/en/documents/details/120418" },
+    "query": "?sv=54&geo=10784",
+    "groups": [
+      { "id": 316, "name": "Moldova: Refugee Coordination Forum", "children": [
+        { "id": 381, "name": "Accountability to Affected People Task Force" },
+        { "id": 386, "name": "Local Refugee Coordination Forum" } ] },
+      { "id": 329, "name": "Protection Working Group", "children": [
+        { "id": 336, "name": "Child Protection Sub-Sector Working Group" },
+        { "id": 337, "name": "Gender-Based Violence (GBV) Sub-Sector Working Group" },
+        { "id": 421, "name": "Disability and Age Task Force" } ] },
+      { "id": 490, "name": "Inclusion and Solutions Working Group", "children": [
+        { "id": 319, "name": "Basic Needs Technical Working Group" },
+        { "id": 318, "name": "Cash Working Group" } ] },
+      { "id": 333, "name": "Health and Nutrition Working Group", "children": [
+        { "id": 400, "name": "MHPSS Technical Reference Group" } ] },
+      { "id": 334, "name": "Education Working Group", "children": [] },
+      { "id": 317, "name": "Information Management Working Group", "children": [] }
+    ],
+    "separate": [ { "id": 502, "name": "Moldova: Sergio Vieira de Mello" } ]
+  }
+}

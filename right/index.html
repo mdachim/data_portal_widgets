@@ -45,8 +45,10 @@ a{color:var(--blue)}
 .btn .arr{font-size:18px;flex:none}
 
 /* Calendar */
-.cal-frame{position:relative;width:100%;aspect-ratio:16/9;margin-top:12px;border-radius:8px;overflow:hidden;background:var(--page);border:1px solid var(--line)}
+.cal-frame{position:relative;width:100%;height:0;padding-bottom:calc(100% * var(--cal-h,.5625) + 40px);margin-top:12px;border-radius:8px;overflow:hidden;background:#000;border:1px solid var(--line)}
 .cal-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.btn-open{display:block;text-align:center;text-decoration:none;margin-top:10px;padding:10px 12px;border-radius:8px;background:var(--blue-01);color:var(--blue-darkest);font-weight:900;font-size:14px}
+.btn-open:hover{background:var(--blue-02)}
 .linkrow{margin-top:10px;font-size:13px;font-weight:700}
 
 /* Coordination tree */
@@ -81,103 +83,204 @@ a{color:var(--blue)}
 <body>
 <main class="wrap">
 
-  <!-- Help banner. Edit the two URLs below if the help pages move. -->
-  <section class="help" aria-label="UNHCR Help">
+  <section class="help" aria-label="UNHCR Help" id="help">
     <img src="assets/unhcr-help.svg" alt="UNHCR, the UN Refugee Agency">
-    <p>Information and services for refugees from Ukraine in Moldova.</p>
-    <div class="btns">
-      <a class="btn primary" id="help-ukr" href="https://help.unhcr.org/moldova/uk/" target="_blank" rel="noopener">
-        <span>Допомога для біженців з України<small>UNHCR Help Moldova, in Ukrainian</small></span><span class="arr" aria-hidden="true">↗</span></a>
-      <a class="btn secondary" id="help-en" href="https://help.unhcr.org/moldova/" target="_blank" rel="noopener">
-        <span>UNHCR Help Moldova (English)</span><span class="arr" aria-hidden="true">↗</span></a>
-    </div>
+    <p id="help-text"></p>
+    <div class="btns" id="help-btns"></div>
   </section>
 
-  <!-- Coordination calendar -->
-  <section class="card" aria-labelledby="cal-h">
-    <h2 id="cal-h">Coordination calendar</h2>
-    <p class="csub">Upcoming coordination meetings and events.</p>
-    <div class="cal-frame">
-      <iframe id="cal" title="Coordination calendar"
-        src="https://docs.google.com/presentation/d/e/2PACX-1vScK7Paq6mfRXN28mPEfotaU3D5B-r979iNP1a-L2NEd-yBO0q70xJg-jbzTh2UwXrGBuLkeqBvi4cu/embed?start=false&amp;loop=false&amp;delayms=3000&amp;slide=id.g29d9704fb09_0_0"
-        loading="lazy" allowfullscreen></iframe>
-    </div>
-    <p class="linkrow"><a href="https://docs.google.com/presentation/d/e/2PACX-1vScK7Paq6mfRXN28mPEfotaU3D5B-r979iNP1a-L2NEd-yBO0q70xJg-jbzTh2UwXrGBuLkeqBvi4cu/pub?start=false&amp;loop=false&amp;delayms=3000&amp;slide=id.g29d9704fb09_0_0" target="_blank" rel="noopener">Open the calendar full screen ↗</a></p>
+  <section class="card" aria-labelledby="cal-h" id="cal-card">
+    <h2 id="cal-h"></h2>
+    <p class="csub" id="cal-sub"></p>
+    <div class="cal-frame"><iframe id="cal" title="Coordination calendar" loading="lazy" allowfullscreen></iframe></div>
+    <a class="btn-open" id="cal-open" target="_blank" rel="noopener">Open the calendar full screen ↗</a>
   </section>
 
-  <!-- RRP + Government of Moldova -->
   <section class="card logo-card" aria-label="Regional Refugee Response for the Ukraine Situation, Government of the Republic of Moldova">
     <img src="assets/rrp-govt.jpg" alt="Government of the Republic of Moldova. Regional Refugee Response for the Ukraine Situation">
   </section>
 
-  <!-- Coordination structure -->
   <section class="card" aria-labelledby="co-h">
-    <h2 id="co-h">Coordination structure</h2>
-    <p class="csub">Select a group to open its page in the portal.</p>
-    <p class="linkrow"><a href="https://data.unhcr.org/en/documents/details/120418" target="_blank" rel="noopener">Coordination structure chart (Q1 2026) ↗</a></p>
+    <h2 id="co-h"></h2>
+    <p class="csub" id="co-sub"></p>
+    <p class="linkrow" id="co-doc"></p>
     <div id="tree"></div>
   </section>
-
 
 </main>
 
 <script>
+/* Content comes from config.json (edit it with the admin tool). The copy below
+   is the fallback used when config.json cannot be fetched, e.g. file:// preview. */
+var DEFAULT_CONFIG = {
+  "help": {
+    "text": "Information and services for refugees from Ukraine in Moldova.",
+    "primary": {
+      "label": "Допомога для біженців з України",
+      "sub": "UNHCR Help Moldova, in Ukrainian",
+      "url": "https://help.unhcr.org/moldova/uk/"
+    },
+    "secondary": {
+      "label": "UNHCR Help Moldova (English)",
+      "url": "https://help.unhcr.org/moldova/"
+    }
+  },
+  "calendar": {
+    "title": "Coordination calendar",
+    "subtitle": "Upcoming coordination meetings and events.",
+    "ratio": "1:1",
+    "url": "https://docs.google.com/presentation/d/e/2PACX-1vScK7Paq6mfRXN28mPEfotaU3D5B-r979iNP1a-L2NEd-yBO0q70xJg-jbzTh2UwXrGBuLkeqBvi4cu/pub?start=false&loop=false&delayms=3000&slide=id.g29d9704fb09_0_0"
+  },
+  "structure": {
+    "title": "Coordination structure",
+    "subtitle": "Select a group to open its page in the portal.",
+    "document": {
+      "label": "Coordination structure chart (Q1 2026)",
+      "url": "https://data.unhcr.org/en/documents/details/120418"
+    },
+    "query": "?sv=54&geo=10784",
+    "groups": [
+      {
+        "id": 316,
+        "name": "Moldova: Refugee Coordination Forum",
+        "children": [
+          {
+            "id": 381,
+            "name": "Accountability to Affected People Task Force"
+          },
+          {
+            "id": 386,
+            "name": "Local Refugee Coordination Forum"
+          }
+        ]
+      },
+      {
+        "id": 329,
+        "name": "Protection Working Group",
+        "children": [
+          {
+            "id": 336,
+            "name": "Child Protection Sub-Sector Working Group"
+          },
+          {
+            "id": 337,
+            "name": "Gender-Based Violence (GBV) Sub-Sector Working Group"
+          },
+          {
+            "id": 421,
+            "name": "Disability and Age Task Force"
+          }
+        ]
+      },
+      {
+        "id": 490,
+        "name": "Inclusion and Solutions Working Group",
+        "children": [
+          {
+            "id": 319,
+            "name": "Basic Needs Technical Working Group"
+          },
+          {
+            "id": 318,
+            "name": "Cash Working Group"
+          }
+        ]
+      },
+      {
+        "id": 333,
+        "name": "Health and Nutrition Working Group",
+        "children": [
+          {
+            "id": 400,
+            "name": "MHPSS Technical Reference Group"
+          }
+        ]
+      },
+      {
+        "id": 334,
+        "name": "Education Working Group",
+        "children": []
+      },
+      {
+        "id": 317,
+        "name": "Information Management Working Group",
+        "children": []
+      }
+    ],
+    "separate": [
+      {
+        "id": 502,
+        "name": "Moldova: Sergio Vieira de Mello"
+      }
+    ]
+  }
+};
+
 (function(){
   var BASE = 'https://data.unhcr.org/en/working-group/';
-  var QS = '?sv=54&geo=10784';
-  function wg(id, name, kids){ return {id:id, name:name, kids:kids||[]}; }
-
-  var structure = [
-    wg(316, 'Moldova: Refugee Coordination Forum', [
-      wg(381, 'Accountability to Affected People Task Force'),
-      wg(386, 'Local Refugee Coordination Forum')
-    ]),
-    wg(329, 'Protection Working Group', [
-      wg(336, 'Child Protection Sub-Sector Working Group'),
-      wg(337, 'Gender-Based Violence (GBV) Sub-Sector Working Group'),
-      wg(421, 'Disability and Age Task Force')
-    ]),
-    wg(490, 'Inclusion and Solutions Working Group', [
-      wg(319, 'Basic Needs Technical Working Group'),
-      wg(318, 'Cash Working Group')
-    ]),
-    wg(333, 'Health and Nutrition Working Group', [
-      wg(400, 'MHPSS Technical Reference Group')
-    ]),
-    wg(334, 'Education Working Group'),
-    wg(317, 'Information Management Working Group')
-  ];
-  var separate = [ wg(502, 'Moldova: Sergio Vieira de Mello') ];
-
-  function node(w, cls){
-    var a = document.createElement('a');
-    a.className = 'node ' + cls;
-    a.href = BASE + w.id + QS;
-    a.target = '_blank'; a.rel = 'noopener';
-    var s = document.createElement('span'); s.textContent = w.name;
-    var e = document.createElement('span'); e.className = 'ext'; e.setAttribute('aria-hidden','true'); e.textContent = '↗';
-    a.appendChild(s); a.appendChild(e);
-    return a;
+  var $ = function(id){ return document.getElementById(id); };
+  function safeUrl(u){ return /^https:\/\//i.test(u || '') ? u : '#'; }
+  function a(href, cls, kids){
+    var el = document.createElement('a'); el.className = cls; el.href = safeUrl(href);
+    el.target = '_blank'; el.rel = 'noopener'; kids.forEach(function(k){ el.appendChild(k); }); return el;
   }
-  function build(){
-    var host = document.getElementById('tree');
+  function span(text, cls){ var s = document.createElement('span'); if (cls) s.className = cls; s.textContent = text; return s; }
+  function arrow(cls){ var e = span('↗', cls); e.setAttribute('aria-hidden','true'); return e; }
+
+  /* Google Slides: "published" link -> embeddable link, and back */
+  var SLIDES = /docs\.google\.com\/presentation\/d\/e\//;
+  function slidesEmbed(u){ return SLIDES.test(u) ? u.replace(/\/(pub|embed)(\?|$)/, '/embed$2') : u; }
+  function slidesOpen(u){ return SLIDES.test(u) ? u.replace(/\/(pub|embed)(\?|$)/, '/pub$2') : u; }
+
+  function render(c){
+    var h = c.help || {};
+    $('help-text').textContent = h.text || '';
+    var btns = $('help-btns'); btns.innerHTML = '';
+    if (h.primary && h.primary.url){
+      var l = span(h.primary.label); if (h.primary.sub){ var sm = document.createElement('small'); sm.textContent = h.primary.sub; l.appendChild(sm); }
+      btns.appendChild(a(h.primary.url, 'btn primary', [l, arrow('arr')]));
+    }
+    if (h.secondary && h.secondary.url) btns.appendChild(a(h.secondary.url, 'btn secondary', [span(h.secondary.label), arrow('arr')]));
+
+    var cal = c.calendar || {};
+    $('cal-h').textContent = cal.title || 'Coordination calendar';
+    $('cal-sub').textContent = cal.subtitle || '';
+    $('cal-card').hidden = !cal.url;
+    var rm = String(cal.ratio || '16:9').split(':'), rw = parseFloat(rm[0]), rh = parseFloat(rm[1]);
+    $('cal-card').style.setProperty('--cal-h', (rw > 0 && rh > 0 ? rh / rw : 0.5625).toFixed(4));
+    if (cal.url){ var e = slidesEmbed(cal.url); if ($('cal').getAttribute('src') !== e) $('cal').src = e; $('cal-open').href = safeUrl(slidesOpen(cal.url)); }
+
+    var st = c.structure || {}, q = st.query || '';
+    $('co-h').textContent = st.title || 'Coordination structure';
+    $('co-sub').textContent = st.subtitle || '';
+    var doc = $('co-doc'); doc.innerHTML = '';
+    if (st.document && st.document.url){ doc.appendChild(a(st.document.url, '', [document.createTextNode(st.document.label + ' ↗')])); doc.style.display = ''; } else doc.style.display = 'none';
+
+    function node(w, cls){ return a(BASE + w.id + q, 'node ' + cls, [span(w.name), arrow('ext')]); }
+    var host = $('tree'); host.innerHTML = '';
     var root = document.createElement('ul'); root.className = 'tree';
-    structure.forEach(function(w, i){
-      var li = document.createElement('li');
-      li.appendChild(node(w, i === 0 ? 'root' : 'wg'));
-      if (w.kids.length){
+    (st.groups || []).forEach(function(w, i){
+      var li = document.createElement('li'); li.appendChild(node(w, i === 0 ? 'root' : 'wg'));
+      if ((w.children || []).length){
         var ul = document.createElement('ul');
-        w.kids.forEach(function(k){ var l = document.createElement('li'); l.appendChild(node(k, 'sub')); ul.appendChild(l); });
+        w.children.forEach(function(k){ var l2 = document.createElement('li'); l2.appendChild(node(k, 'sub')); ul.appendChild(l2); });
         li.appendChild(ul);
       }
       root.appendChild(li);
     });
     host.appendChild(root);
-    var sepWrap = document.createElement('div'); sepWrap.className = 'sep';
-    separate.forEach(function(w){ sepWrap.appendChild(node(w, 'special')); });
-    host.appendChild(sepWrap);
+    if ((st.separate || []).length){
+      var sep = document.createElement('div'); sep.className = 'sep';
+      st.separate.forEach(function(w){ sep.appendChild(node(w, 'special')); });
+      host.appendChild(sep);
+    }
   }
-  build();
+
+  render(DEFAULT_CONFIG);
+  if (location.protocol !== 'file:'){
+    fetch('config.json', {cache:'no-cache'}).then(function(r){ if (!r.ok) throw 0; return r.json(); })
+      .then(render).catch(function(){ /* keep fallback */ });
+  }
 })();
 </script>
 </body>
