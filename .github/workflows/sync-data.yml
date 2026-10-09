@@ -1,0 +1,59 @@
+name: Sync operational data
+
+# Pulls the source JSON files from the two dashboard repos, rebuilds
+# data/operational.json and commits it when something changed.
+on:
+  schedule:
+    - cron: "17 */6 * * *"      # every 6 hours
+  workflow_dispatch:             # "Run workflow" button
+  repository_dispatch:           # optional: a source repo can ping this one
+    types: [source-updated]
+  push:
+    paths:
+      - data/manual.json
+      - scripts/build_operational.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-operational-data
+  cancel-in-progress: false
+
+env:
+  POP_REPO: mdachim/population_movement
+  RRP_REPO: mdachim/rrp_2026
+  BRANCH: main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch source files
+        run: |
+          mkdir -p .sources
+          fetch() {  # repo file
+            curl -fsSL --retry 3 --retry-delay 5 \
+              -o ".sources/$2" "https://raw.githubusercontent.com/$1/${BRANCH}/$2"
+          }
+          fetch "$POP_REPO" pop_trends.json
+          fetch "$POP_REPO" tp_data.json
+          fetch "$RRP_REPO" data.json
+          fetch "$RRP_REPO" indicator_config.json
+          fetch "$RRP_REPO" targets_2026.json
+
+      - name: Build data/operational.json
+        run: python3 scripts/build_operational.py --sources .sources --manual data/manual.json --out data/operational.json
+
+      - name: Commit if changed
+        run: |
+          if [ -z "$(git status --porcelain data/operational.json data/operational.js)" ]; then
+            echo "operational data unchanged"; exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/operational.json data/operational.js
+          git commit -m "chore: Refresh operational data"
+          git push
