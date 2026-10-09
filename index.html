@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moldova refugee response: operational picture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&amp;display=swap" rel="stylesheet">
+<script>
+  /* Inside an iframe (UNHCR Operational Data Portal) the host often fixes the
+     frame height, so the page scrolls inside .wrap instead of the document. */
+  if (window.self !== window.top) document.documentElement.classList.add('embedded');
+</script>
+<script src="vendor/chart.umd.js"></script>
+<style>
+:root{
+  --blue:#0072BC; --blue-dark:#05568B; --blue-darkest:#0B3754; --blue-02:#8FC1E1; --blue-01:#CDE3F1;
+  --cyan:#6CD8FD; --purple:#A097E3; --yellow:#FFC740;
+  --ink:#242a2e; --ink-2:#4d565c; --ink-3:#5d676e;
+  --page:#eef2f5; --card:#fff; --line:#e3e8ec; --line-strong:#cfd7dd;
+  --gap:16px; --radius:10px; --shadow:0 2px 6px rgba(11,55,84,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Lato',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--page);
+  color:var(--ink);line-height:1.5;padding:var(--gap)}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:var(--gap)}
+html.embedded,html.embedded body{height:100%;overflow:hidden}
+html.embedded body{padding:0}
+html.embedded .wrap{height:100%;max-width:none;overflow-y:auto;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;padding:var(--gap);display:block}
+html.embedded .wrap>*+*{margin-top:var(--gap)}
+a{color:var(--blue)}
+a:hover{color:var(--blue-dark)}
+:focus-visible{outline:3px solid var(--blue-02);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.header{background:var(--blue);color:#fff;border-radius:var(--radius);padding:18px 22px;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:8px 20px;flex-wrap:wrap}
+.header h1{font-size:22px;font-weight:900;line-height:1.2}
+.header .sub{font-size:14px;color:var(--blue-01);margin-top:2px}
+.header .asof{font-size:13px;color:var(--blue-01);white-space:nowrap}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:var(--gap)}
+.kpi{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border-left:4px solid var(--blue);
+  padding:14px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi .l{font-size:13px;font-weight:700;color:var(--ink-2);line-height:1.3}
+.kpi .v{font-size:30px;font-weight:900;color:var(--blue-dark);letter-spacing:-.5px;line-height:1.15;margin-top:4px}
+.kpi .n{font-size:12px;color:var(--ink-3);line-height:1.4}
+.meter{height:6px;border-radius:3px;background:var(--blue-01);margin-top:6px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--blue)}
+
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 22px;min-width:0}
+.card h2{font-size:16px;font-weight:900;color:var(--ink);line-height:1.3}
+.card .csub{font-size:13px;color:var(--ink-3);margin-top:2px}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px 16px;flex-wrap:wrap;margin-bottom:14px}
+.card-head .csub{max-width:560px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--gap)}
+.two>.card{display:flex;flex-direction:column}
+
+.year-nav{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.tl-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--line-strong);background:#fff;
+  color:var(--blue-dark);font:700 18px/1 'Lato',sans-serif;cursor:pointer}
+.tl-btn:hover:not(:disabled){background:var(--blue-01);border-color:var(--blue-02)}
+.tl-btn:disabled{opacity:.4;cursor:not-allowed}
+.yr-label{font-size:16px;font-weight:900;color:var(--blue-dark);min-width:48px;text-align:center}
+.yr-label.all{color:var(--ink-3);font-weight:700}
+.tl-all{font:700 13px/1 'Lato',sans-serif;color:var(--blue);background:var(--blue-01);border:0;border-radius:8px;
+  padding:11px 14px;cursor:pointer}
+.tl-all:hover{background:var(--blue-02)}
+.tl-all.active{background:var(--blue);color:#fff}
+
+.chart-box{position:relative;height:340px}
+.legend{display:flex;gap:8px 18px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.lg{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ink-2)}
+.lg .sw{width:14px;height:14px;border-radius:3px}
+.lg .sw.line{height:3px;width:18px;border-radius:2px}
+.note{font-size:12px;color:var(--ink-3);line-height:1.6;margin-top:12px}
+.note b{color:var(--ink-2)}
+.more{font-size:13px;font-weight:700;margin-top:10px}
+
+.bd-row{display:grid;grid-template-columns:62px 1fr auto;align-items:center;gap:10px;padding:6px 0}
+.bd-name{font-size:14px;font-weight:700;color:var(--ink-2)}
+.bd-track{height:14px;border-radius:7px;background:#f1f4f6;overflow:hidden}
+.bd-fill{height:100%;border-radius:7px}
+.bd-num{font-size:14px;font-weight:700;color:var(--ink);text-align:right;white-space:nowrap}
+.bd-num span{font-weight:400;color:var(--ink-3);margin-left:6px;display:inline-block;min-width:30px}
+
+.res-list{list-style:none;display:flex;flex-direction:column;margin-top:6px}
+.res-list li+li{border-top:1px solid var(--line)}
+.res{display:flex;gap:12px;align-items:flex-start;padding:11px 0;text-decoration:none;color:var(--ink)}
+.res:hover .res-t{color:var(--blue-dark);text-decoration:underline}
+.res svg{flex:0 0 auto;margin-top:2px}
+.res-t{font-size:14px;font-weight:700;line-height:1.35}
+.res-m{font-size:12px;color:var(--ink-3)}
+
+.pa-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.pa-big{font-size:36px;font-weight:900;color:var(--blue-dark);letter-spacing:-1px;line-height:1}
+.pa-cap{font-size:13px;color:var(--ink-2)}
+.pa-stats{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:13px;color:var(--ink-2);margin-bottom:14px}
+.pa-stats b{color:var(--ink)}
+.sec-row{display:grid;grid-template-columns:minmax(120px,210px) 1fr 44px;align-items:center;gap:6px 12px;padding:7px 0}
+.sec-name{font-size:14px;font-weight:700;line-height:1.3}
+.sec-meta{font-size:12px;font-weight:400;color:var(--ink-3)}
+.sec-track{height:14px;border-radius:7px;background:var(--blue-01);overflow:hidden}
+.sec-fill{height:100%;border-radius:7px;background:var(--blue)}
+.sec-pct{font-size:14px;font-weight:900;color:var(--blue-dark);text-align:right}
+.sec-pct.none{font-weight:400;color:var(--ink-3);font-size:12px}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--gap)}
+.tile{display:flex;flex-direction:column;gap:6px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+  border-top:4px solid var(--blue);padding:16px 18px;text-decoration:none;color:var(--ink)}
+.tile:hover{border-top-color:var(--blue-dark);box-shadow:0 4px 12px rgba(11,55,84,.16)}
+.tile-t{font-size:16px;font-weight:900;color:var(--blue-dark)}
+.tile-x{font-size:13px;color:var(--ink-2);flex:1}
+.tile-go{font-size:13px;font-weight:700;color:var(--blue)}
+.sec-title{font-size:13px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-2)}
+.footer{font-size:12px;color:var(--ink-3);text-align:center;line-height:1.7;padding:4px 0 8px}
+.err{background:#FCE2DE;border:1px solid #D25A45;color:#683229;padding:16px 20px;border-radius:var(--radius);font-size:14px}
+@media (max-width:560px){
+  .card{padding:16px}
+  .chart-box{height:300px}
+  .sec-row{grid-template-columns:1fr 44px}
+  .sec-row .sec-track{grid-column:1 / -1;grid-row:2}
+}
+</style>
+</head>
+<body>
+<main class="wrap" id="app">
+  <header class="header">
+    <div>
+      <h1>Operational picture</h1>
+      <div class="sub">Republic of Moldova · refugee response at a glance</div>
+    </div>
+    <div class="asof" id="asof"></div>
+  </header>
+
+  <div id="loading" class="card"><div class="csub">Loading data…</div></div>
+  <div id="content" hidden>
+    <div class="kpis" id="kpis"></div>
+
+    <section class="card" style="margin-top:var(--gap)" aria-labelledby="h-flow">
+      <div class="card-head">
+        <div>
+          <h2 id="h-flow">Monthly arrivals &amp; departures with remaining population</h2>
+          <div class="csub">Bars show refugee arrivals and departures each month; the line tracks the refugee population remaining in Moldova. The latest month is highlighted.</div>
+        </div>
+        <div class="year-nav">
+          <button class="tl-btn" id="yrPrev" type="button" aria-label="Previous year">‹</button>
+          <span class="yr-label" id="yrLabel" aria-live="polite">—</span>
+          <button class="tl-btn" id="yrNext" type="button" aria-label="Next year">›</button>
+          <button class="tl-all" id="yrAll" type="button">All years</button>
+        </div>
+      </div>
+      <div class="chart-box"><canvas id="flowChart" role="img" aria-label="Monthly arrivals, departures and remaining refugee population"></canvas></div>
+      <div class="legend">
+        <div class="lg"><span class="sw" style="background:var(--blue)"></span>Arrivals</div>
+        <div class="lg"><span class="sw" style="background:var(--yellow)"></span>Departures</div>
+        <div class="lg"><span class="sw line" style="background:var(--blue-darkest)"></span>Remaining population (trend)</div>
+      </div>
+      <div class="note" id="chartNote" hidden>* A month marked with <b>*</b> also carries the preceding month(s) that had no separate report — its bar is a combined figure. Hover a bar for details.</div>
+      <div class="note" id="flowSource"></div>
+      <div class="more"><a href="https://data.unhcr.org/en/dataviz/248?sv=54&amp;geo=10784" target="_blank" rel="noopener">Open the full Population Trends dashboard ↗</a></div>
+    </section>
+
+    <div class="two" style="margin-top:var(--gap)">
+      <section class="card" aria-labelledby="h-who">
+        <h2 id="h-who">Who the refugees are</h2>
+        <div class="csub" id="whoSub"></div>
+        <div id="who" style="margin-top:10px"></div>
+      </section>
+      <section class="card" aria-labelledby="h-res">
+        <h2 id="h-res">Key resources</h2>
+        <div class="csub">Plans, assessments and policy papers on the Moldova response</div>
+        <ul class="res-list" id="resources"></ul>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:var(--gap)" aria-labelledby="h-pa">
+      <div class="card-head" style="margin-bottom:10px">
+        <div>
+          <h2 id="h-pa">Partners’ achievements against 2026 targets</h2>
+          <div class="csub" id="paSub"></div>
+        </div>
+      </div>
+      <div class="pa-top"><span class="pa-big" id="paBig"></span><span class="pa-cap">overall progress against 2026 targets</span></div>
+      <div class="pa-stats" id="paStats"></div>
+      <div id="sectors"></div>
+      <div class="note" id="paNote"></div>
+      <div class="more"><a href="https://mdachim.github.io/rrp_2026/" target="_blank" rel="noopener">Open the RRP 2026 partners’ dashboard ↗</a></div>
+    </section>
+
+    <div class="sec-title" style="margin-top:var(--gap)">More interactive dashboards</div>
+    <div class="tiles" id="tiles" style="margin-top:10px"></div>
+
+    <div class="footer" id="footer" style="margin-top:var(--gap)"></div>
+  </div>
+</main>
+
+<script>
+(function(){
+'use strict';
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTHS_LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const fmtC = n => { const a = Math.abs(n);
+  if (a >= 1e6) return (n/1e6).toLocaleString('en-US',{maximumFractionDigits:2}) + 'M';
+  if (a >= 1e3) return (n/1e3).toLocaleString('en-US',{maximumFractionDigits:a >= 1e5 ? 0 : 1}) + 'K';
+  return fmt(n); };
+const longDate = d => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'});
+const keyLabel = k => { const [y,m] = k.split('-').map(Number); return MONTHS[m-1] + ' ' + y; };
+const keyLong  = k => { const [y,m] = k.split('-').map(Number); return MONTHS_LONG[m-1] + ' ' + y; };
+const monthShort = k => MONTHS[parseInt(k.slice(5),10) - 1];
+const yearOf = k => parseInt(k.slice(0,4),10);
+
+let D, M, YEARS, chartYear, chart, viewIdx = [];
+const COVER = [];
+
+/* A gap in the series (e.g. Sep 2025 missing) means the next reported month
+   carries the skipped month(s) too; flag it so the bar can be starred. */
+function computeCover(){
+  COVER.length = 0;
+  M.forEach((m,i) => {
+    if (i === 0){ COVER[i] = null; return; }
+    const [y,mo] = m.key.split('-').map(Number), [py,pmo] = M[i-1].key.split('-').map(Number);
+    const diff = (y-py)*12 + (mo-pmo);
+    if (diff > 1){
+      const keys = [];
+      for (let s = diff-1; s >= 1; s--){ let mm = mo-s, yy = y; while (mm <= 0){ mm += 12; yy--; } keys.push(yy + '-' + String(mm).padStart(2,'0')); }
+      keys.push(m.key); COVER[i] = keys;
+    } else COVER[i] = null;
+  });
+}
+
+function renderKpis(){
+  const k = D.kpis, bc = k.border_crossings, tp = k.tp_beneficiaries, rf = k.refugees_from_ukraine, fu = k.rrp_funded;
+  const card = (label, value, note, extra) =>
+    `<div class="kpi"><div class="l">${label}</div><div class="v">${value}</div><div class="n">${note}</div>${extra || ''}</div>`;
+  $('kpis').innerHTML =
+    card('Refugees from Ukraine in Moldova', fmt(rf.value), `Arrived directly from Ukraine · model estimate, ${esc(rf.label)}`) +
+    card('Temporary protection beneficiaries', fmt(tp.value),
+         (tp.new_in_interval != null ? `+${fmt(tp.new_in_interval)} in the latest interval · ` : 'Cumulative · ') + `IGM, ${longDate(tp.date)}`) +
+    card('Border crossings, ' + esc(bc.label), fmt(bc.total), `${fmt(bc.arrivals)} arrivals · ${fmt(bc.departures)} departures`) +
+    card('RRP 2026 funded', fu.pct + '%', 'Share of 2026 requirements funded',
+         `<div class="meter" role="img" aria-label="${fu.pct}% funded"><i style="width:${Math.min(100, fu.pct)}%"></i></div>`);
+}
+
+function buildChart(){
+  const ctx = $('flowChart').getContext('2d');
+  const font = (size, weight) => ({family:'Lato', size, weight: weight || '400'});
+  chart = new Chart(ctx, {
+    data:{ labels:[], datasets:[
+      {type:'bar', label:'Arrivals', data:[], backgroundColor:'#0072BC', yAxisID:'y', order:3, borderRadius:2, categoryPercentage:.72, barPercentage:.9},
+      {type:'bar', label:'Departures', data:[], backgroundColor:'#FFC740', yAxisID:'y', order:3, borderRadius:2, categoryPercentage:.72, barPercentage:.9},
+      {type:'line', label:'Remaining population (trend)', data:[], yAxisID:'y1', borderColor:'#0B3754', backgroundColor:'#0B3754',
+       borderWidth:2.5, pointRadius:3.5, pointHoverRadius:7, pointBackgroundColor:'#0B3754', pointBorderColor:'#fff',
+       pointBorderWidth:1.5, pointHoverBorderWidth:2.5, tension:.3, order:1}
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false, interaction:{mode:'index', intersect:false},
+      plugins:{ legend:{display:false},
+        tooltip:{ backgroundColor:'#0B3754', padding:12, titleFont:font(13,'700'), bodyFont:font(13), footerFont:font(12), footerColor:'#CDE3F1', cornerRadius:6,
+          callbacks:{
+            title: items => keyLabel(M[viewIdx[items[0].dataIndex]].key),
+            label: c => ` ${c.dataset.label}: ${fmt(c.parsed.y)}`,
+            footer: items => { const c = COVER[viewIdx[items[0].dataIndex]];
+              return c ? 'Combined figure: ' + c.map(keyLabel).join(' + ') : ''; }
+          }}},
+      scales:{
+        x:{grid:{display:false}, ticks:{font:font(11), color:'#5d676e', maxRotation:0, autoSkip:true, maxTicksLimit:12}, border:{color:'#cfd7dd'}},
+        y:{position:'left', grid:{color:'#eef2f5'}, border:{display:false}, ticks:{font:font(11), color:'#5d676e', callback:v => fmtC(v)},
+           title:{display:true, text:'Monthly crossings', font:font(11,'700'), color:'#4d565c'}},
+        y1:{position:'right', grid:{display:false}, border:{display:false}, min:0, ticks:{font:font(11), color:'#0B3754', callback:v => fmtC(v)},
+            title:{display:true, text:'Remaining', font:font(11,'700'), color:'#0B3754'}}
+      }
+    }
+  });
+}
+
+function updateChart(){
+  const last = M.length - 1, single = chartYear !== null;
+  viewIdx = M.map((m,i) => i).filter(i => !single || yearOf(M[i].key) === chartYear);
+  chart.data.labels = viewIdx.map(i => (single ? monthShort(M[i].key) : keyLabel(M[i].key)) + (COVER[i] ? ' *' : ''));
+  const ds = chart.data.datasets;
+  ds[0].data = viewIdx.map(i => M[i].arrivals);
+  ds[1].data = viewIdx.map(i => M[i].departures);
+  ds[2].data = viewIdx.map(i => M[i].remaining);
+  ds[0].backgroundColor = viewIdx.map(i => i === last ? '#0072BC' : '#8FC1E1');
+  ds[1].backgroundColor = viewIdx.map(i => i === last ? '#FFC740' : '#FEE9B3');
+  chart.update('none');
+  $('yrLabel').textContent = single ? chartYear : 'All';
+  $('yrLabel').classList.toggle('all', !single);
+  $('yrPrev').disabled = chartYear === YEARS[0];
+  $('yrNext').disabled = !single;
+  $('yrAll').classList.toggle('active', !single);
+  $('chartNote').hidden = !viewIdx.some(i => COVER[i]);
+  const first = M[viewIdx[0]], lastM = M[viewIdx[viewIdx.length-1]];
+  $('flowChart').setAttribute('aria-label',
+    `Monthly arrivals, departures and remaining refugee population, ${keyLabel(first.key)} to ${keyLabel(lastM.key)}. ` +
+    `Latest month ${keyLabel(lastM.key)}: ${fmt(lastM.arrivals)} arrivals, ${fmt(lastM.departures)} departures, ${fmt(lastM.remaining)} remaining.`);
+}
+
+function wireYears(){
+  const ALLPOS = YEARS.length;
+  const step = d => {
+    const p = chartYear === null ? ALLPOS : YEARS.indexOf(chartYear), np = p + d;
+    if (np < 0 || np > ALLPOS) return;
+    chartYear = np === ALLPOS ? null : YEARS[np]; updateChart();
+  };
+  $('yrPrev').onclick = () => step(-1);
+  $('yrNext').onclick = () => step(1);
+  $('yrAll').onclick = () => { chartYear = null; updateChart(); };
+}
+
+function renderWho(){
+  const d = D.demographics, rows = [['women','Women','#0072BC'],['men','Men','#05568B'],['girls','Girls','#A097E3'],['boys','Boys','#6CD8FD']];
+  const max = Math.max(...rows.map(r => d[r[0]]), 1);
+  $('whoSub').textContent = `${fmt(d.total)} refugees from Ukraine staying in Moldova · model estimate, ${d.label}`;
+  $('who').innerHTML = rows.map(([k,label,col]) =>
+    `<div class="bd-row"><div class="bd-name">${label}</div>
+      <div class="bd-track"><div class="bd-fill" style="width:${d[k]/max*100}%;background:${col}"></div></div>
+      <div class="bd-num">${fmt(d[k])}<span>${Math.round(d[k]/d.total*100)}%</span></div></div>`).join('');
+}
+
+function renderResources(){
+  const icon = '<svg width="20" height="24" viewBox="0 0 20 24" fill="none" aria-hidden="true"><path d="M2 1h10l6 6v16H2z" stroke="#0072BC" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 1v6h6M5 12h10M5 16h10M5 20h6" stroke="#0072BC" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  $('resources').innerHTML = D.resources.map(r =>
+    `<li><a class="res" href="${esc(r.url)}" target="_blank" rel="noopener">${icon}
+      <span><span class="res-t">${esc(r.title)}</span><br><span class="res-m">${r.lang ? esc(r.lang) + ' · ' : ''}UNHCR Operational Data Portal ↗</span></span></a></li>`).join('');
+}
+
+function renderPartners(){
+  const p = D.partner_achievements, until = p.reported_until ? keyLong(p.reported_until) : null;
+  $('paSub').textContent = 'Progress by sector against 2026 targets' + (until ? `, partner reporting up to ${until}` : '');
+  $('paBig').textContent = p.overall_progress_pct == null ? '–' : Math.round(p.overall_progress_pct) + '%';
+  $('paStats').innerHTML =
+    `<span><b>${p.indicators_with_target}</b> indicators with a target</span>` +
+    `<span><b>${p.partners}</b> partners reporting</span>` +
+    `<span><b>${p.raions_covered}</b> raions covered</span>`;
+  $('sectors').innerHTML = p.sectors.map(s => {
+    const has = s.progress_pct != null, pct = has ? Math.round(s.progress_pct) : 0;
+    return `<div class="sec-row">
+      <div class="sec-name">${esc(s.sector)}<div class="sec-meta">${s.indicators} indicator${s.indicators === 1 ? '' : 's'} · ${s.partners} partners</div></div>
+      <div class="sec-track" role="img" aria-label="${esc(s.sector)}: ${has ? pct + '% of target' : 'no target'}"><div class="sec-fill" style="width:${has ? Math.min(100, Math.max(1, s.progress_pct)) : 0}%"></div></div>
+      <div class="sec-pct${has ? '' : ' none'}">${has ? pct + '%' : 'no target'}</div></div>`;
+  }).join('');
+  $('paNote').textContent = 'Progress is achieved ÷ 2026 target, summed over the indicators of each sector that have a target, with each indicator counted by its own methodology. Same method as the RRP 2026 dashboard.';
+}
+
+function renderTiles(){
+  $('tiles').innerHTML = D.dashboards.map(t =>
+    `<a class="tile" href="${esc(t.url)}" target="_blank" rel="noopener"><span class="tile-t">${esc(t.title)}</span>
+      <span class="tile-x">${esc(t.text || '')}</span><span class="tile-go">Open dashboard ↗</span></a>`).join('');
+}
+
+function renderMeta(){
+  const pm = D.population_trends.meta, first = keyLabel(pm.first_month), last = keyLabel(pm.last_month);
+  $('asof').textContent = 'Updated ' + longDate(D.generated.slice(0,10));
+  $('flowSource').innerHTML = `Source: ${esc(pm.source || 'Border Police')}, ${first} – ${last}.` +
+    (pm.methodology_note ? ' ' + esc(pm.methodology_note) : '');
+  $('footer').innerHTML = 'Sources: Border Police (cross-border flows and population estimates) · IGM (temporary protection) · partner reporting in ActivityInfo (RRP 2026) · RRP funding entered manually.';
+}
+
+/* Hosted (http/https): read the JSON. Opened from disk (file://), browsers block
+   fetch(), so read the same data from data/operational.js instead. */
+function loadData(){
+  if (location.protocol === 'file:'){
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'data/operational.js';
+      s.onload = () => window.OPERATIONAL_DATA ? resolve(window.OPERATIONAL_DATA) : reject(new Error('data/operational.js has no data'));
+      s.onerror = () => reject(new Error('data/operational.js not found'));
+      document.head.appendChild(s);
+    });
+  }
+  return fetch('data/operational.json', {cache:'no-store'})
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+}
+
+loadData()
+  .then(data => {
+    D = data; M = D.population_trends.months;
+    YEARS = [...new Set(M.map(m => yearOf(m.key)))].sort((a,b) => a-b);
+    chartYear = YEARS[YEARS.length - 1];
+    computeCover();
+    renderKpis(); renderWho(); renderResources(); renderPartners(); renderTiles(); renderMeta();
+    $('loading').hidden = true; $('content').hidden = false;
+    buildChart(); wireYears(); updateChart();
+  })
+  .catch(err => {
+    $('loading').outerHTML = `<div class="err"><b>Couldn’t load the data.</b><br>Check that the <code>data</code> folder (with <code>operational.json</code> and <code>operational.js</code>) sits next to this page.<br><small>${esc(err.message || err)}</small></div>`;
+  });
+})();
+</script>
+</body>
+</html>

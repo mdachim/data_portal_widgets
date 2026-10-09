@@ -1,0 +1,519 @@
+{
+ "generated": "2026-10-09T07:04:40Z",
+ "kpis": {
+  "refugees_from_ukraine": {
+   "value": 101365,
+   "month": "2026-09",
+   "label": "Sep 2026"
+  },
+  "border_crossings": {
+   "month": "2026-09",
+   "label": "Sep 2026",
+   "arrivals": 75448,
+   "departures": 72985,
+   "total": 148433
+  },
+  "tp_beneficiaries": {
+   "value": 60256,
+   "date": "2026-10-04",
+   "new_in_interval": 559,
+   "source": "IGM"
+  },
+  "rrp_funded": {
+   "pct": 27,
+   "note": "Entered by hand for now. Update pct here; the sync workflow carries it into operational.json.",
+   "updated": "2026-10-09"
+  }
+ },
+ "population_trends": {
+  "meta": {
+   "source": "Cross-border flow records for Ukrainian refugees reported by the Border Police",
+   "methodology_note": "Figures for the refugee population present are model estimates and are rounded in labels.",
+   "updated": "2026-09-30",
+   "first_month": "2022-03",
+   "last_month": "2026-09"
+  },
+  "months": [
+   {
+    "key": "2022-03",
+    "label": "Mar 2022",
+    "arrivals": 372044,
+    "departures": 276313,
+    "remaining": 95731
+   },
+   {
+    "key": "2022-04",
+    "label": "Apr 2022",
+    "arrivals": 66769,
+    "departures": 64883,
+    "remaining": 97617
+   },
+   {
+    "key": "2022-05",
+    "label": "May 2022",
+    "arrivals": 51126,
+    "departures": 64428,
+    "remaining": 84315
+   },
+   {
+    "key": "2022-06",
+    "label": "Jun 2022",
+    "arrivals": 56531,
+    "departures": 58001,
+    "remaining": 82845
+   },
+   {
+    "key": "2022-07",
+    "label": "Jul 2022",
+    "arrivals": 60107,
+    "departures": 54961,
+    "remaining": 87991
+   },
+   {
+    "key": "2022-08",
+    "label": "Aug 2022",
+    "arrivals": 64441,
+    "departures": 62108,
+    "remaining": 90324
+   },
+   {
+    "key": "2022-09",
+    "label": "Sep 2022",
+    "arrivals": 62280,
+    "departures": 59804,
+    "remaining": 92800
+   },
+   {
+    "key": "2022-10",
+    "label": "Oct 2022",
+    "arrivals": 56104,
+    "departures": 53110,
+    "remaining": 95794
+   },
+   {
+    "key": "2022-11",
+    "label": "Nov 2022",
+    "arrivals": 43889,
+    "departures": 42262,
+    "remaining": 97421
+   },
+   {
+    "key": "2022-12",
+    "label": "Dec 2022",
+    "arrivals": 35576,
+    "departures": 32503,
+    "remaining": 100494
+   },
+   {
+    "key": "2023-01",
+    "label": "Jan 2023",
+    "arrivals": 41995,
+    "departures": 39738,
+    "remaining": 102751
+   },
+   {
+    "key": "2023-02",
+    "label": "Feb 2023",
+    "arrivals": 30460,
+    "departures": 30003,
+    "remaining": 103208
+   },
+   {
+    "key": "2023-03",
+    "label": "Mar 2023",
+    "arrivals": 25679,
+    "departures": 28163,
+    "remaining": 100724
+   },
+   {
+    "key": "2023-04",
+    "label": "Apr 2023",
+    "arrivals": 34131,
+    "departures": 33950,
+    "remaining": 100905
+   },
+   {
+    "key": "2023-05",
+    "label": "May 2023",
+    "arrivals": 31571,
+    "departures": 30402,
+    "remaining": 102074
+   },
+   {
+    "key": "2023-06",
+    "label": "Jun 2023",
+    "arrivals": 42669,
+    "departures": 40590,
+    "remaining": 104153
+   },
+   {
+    "key": "2023-07",
+    "label": "Jul 2023",
+    "arrivals": 67957,
+    "departures": 62884,
+    "remaining": 109226
+   },
+   {
+    "key": "2023-08",
+    "label": "Aug 2023",
+    "arrivals": 49554,
+    "departures": 49725,
+    "remaining": 109055
+   },
+   {
+    "key": "2023-09",
+    "label": "Sep 2023",
+    "arrivals": 45300,
+    "departures": 44173,
+    "remaining": 110182
+   },
+   {
+    "key": "2023-10",
+    "label": "Oct 2023",
+    "arrivals": 59882,
+    "departures": 58265,
+    "remaining": 111799
+   },
+   {
+    "key": "2023-11",
+    "label": "Nov 2023",
+    "arrivals": 29750,
+    "departures": 28140,
+    "remaining": 113409
+   },
+   {
+    "key": "2023-12",
+    "label": "Dec 2023",
+    "arrivals": 32418,
+    "departures": 25134,
+    "remaining": 120693
+   },
+   {
+    "key": "2024-01",
+    "label": "Jan 2024",
+    "arrivals": 19734,
+    "departures": 24680,
+    "remaining": 115747
+   },
+   {
+    "key": "2024-02",
+    "label": "Feb 2024",
+    "arrivals": 20879,
+    "departures": 19840,
+    "remaining": 116786
+   },
+   {
+    "key": "2024-03",
+    "label": "Mar 2024",
+    "arrivals": 32644,
+    "departures": 30676,
+    "remaining": 118754
+   },
+   {
+    "key": "2024-04",
+    "label": "Apr 2024",
+    "arrivals": 27665,
+    "departures": 28005,
+    "remaining": 118414
+   },
+   {
+    "key": "2024-05",
+    "label": "May 2024",
+    "arrivals": 36697,
+    "departures": 34579,
+    "remaining": 120532
+   },
+   {
+    "key": "2024-06",
+    "label": "Jun 2024",
+    "arrivals": 69479,
+    "departures": 67620,
+    "remaining": 122391
+   },
+   {
+    "key": "2024-07",
+    "label": "Jul 2024",
+    "arrivals": 60988,
+    "departures": 58333,
+    "remaining": 125046
+   },
+   {
+    "key": "2024-08",
+    "label": "Aug 2024",
+    "arrivals": 55249,
+    "departures": 55802,
+    "remaining": 124493
+   },
+   {
+    "key": "2024-09",
+    "label": "Sep 2024",
+    "arrivals": 57078,
+    "departures": 57842,
+    "remaining": 123729
+   },
+   {
+    "key": "2024-10",
+    "label": "Oct 2024",
+    "arrivals": 42031,
+    "departures": 39624,
+    "remaining": 126136
+   },
+   {
+    "key": "2024-11",
+    "label": "Nov 2024",
+    "arrivals": 28001,
+    "departures": 27115,
+    "remaining": 127022
+   },
+   {
+    "key": "2024-12",
+    "label": "Dec 2024",
+    "arrivals": 26733,
+    "departures": 17894,
+    "remaining": 135861
+   },
+   {
+    "key": "2025-01",
+    "label": "Jan 2025",
+    "arrivals": 22023,
+    "departures": 30098,
+    "remaining": 127786
+   },
+   {
+    "key": "2025-02",
+    "label": "Feb 2025",
+    "arrivals": 20691,
+    "departures": 20755,
+    "remaining": 127722
+   },
+   {
+    "key": "2025-03",
+    "label": "Mar 2025",
+    "arrivals": 26858,
+    "departures": 27396,
+    "remaining": 127184
+   },
+   {
+    "key": "2025-04",
+    "label": "Apr 2025",
+    "arrivals": 28333,
+    "departures": 26753,
+    "remaining": 128764
+   },
+   {
+    "key": "2025-05",
+    "label": "May 2025",
+    "arrivals": 48663,
+    "departures": 46286,
+    "remaining": 131141
+   },
+   {
+    "key": "2025-06",
+    "label": "Jun 2025",
+    "arrivals": 76782,
+    "departures": 74962,
+    "remaining": 132961
+   },
+   {
+    "key": "2025-07",
+    "label": "Jul 2025",
+    "arrivals": 87699,
+    "departures": 84775,
+    "remaining": 135885
+   },
+   {
+    "key": "2025-08",
+    "label": "Aug 2025",
+    "arrivals": 77577,
+    "departures": 78385,
+    "remaining": 135077
+   },
+   {
+    "key": "2025-10",
+    "label": "Oct 2025",
+    "arrivals": 122739,
+    "departures": 119752,
+    "remaining": 138064
+   },
+   {
+    "key": "2025-11",
+    "label": "Nov 2025",
+    "arrivals": 40687,
+    "departures": 41125,
+    "remaining": 137626
+   },
+   {
+    "key": "2025-12",
+    "label": "Dec 2025",
+    "arrivals": 35328,
+    "departures": 23959,
+    "remaining": 148995
+   },
+   {
+    "key": "2026-01",
+    "label": "Jan 2026",
+    "arrivals": 25786,
+    "departures": 34641,
+    "remaining": 140140
+   },
+   {
+    "key": "2026-02",
+    "label": "Feb 2026",
+    "arrivals": 24837,
+    "departures": 24184,
+    "remaining": 140793
+   },
+   {
+    "key": "2026-03",
+    "label": "Mar 2026",
+    "arrivals": 33294,
+    "departures": 33389,
+    "remaining": 140698
+   },
+   {
+    "key": "2026-04",
+    "label": "Apr 2026",
+    "arrivals": 32263,
+    "departures": 33741,
+    "remaining": 139220
+   },
+   {
+    "key": "2026-05",
+    "label": "May 2026",
+    "arrivals": 45737,
+    "departures": 43899,
+    "remaining": 141058
+   },
+   {
+    "key": "2026-06",
+    "label": "Jun 2026",
+    "arrivals": 89647,
+    "departures": 89177,
+    "remaining": 141528
+   },
+   {
+    "key": "2026-07",
+    "label": "Jul 2026",
+    "arrivals": 106653,
+    "departures": 102378,
+    "remaining": 145803
+   },
+   {
+    "key": "2026-08",
+    "label": "Aug 2026",
+    "arrivals": 92453,
+    "departures": 94052,
+    "remaining": 144204
+   },
+   {
+    "key": "2026-09",
+    "label": "Sep 2026",
+    "arrivals": 75448,
+    "departures": 72985,
+    "remaining": 146667
+   }
+  ]
+ },
+ "demographics": {
+  "month": "2026-09",
+  "label": "Sep 2026",
+  "total": 101365,
+  "women": 41974,
+  "men": 12820,
+  "girls": 22412,
+  "boys": 24159
+ },
+ "partner_achievements": {
+  "reported_until": "2026-06",
+  "overall_progress_pct": 28.1744,
+  "indicators_reported": 46,
+  "indicators_with_target": 44,
+  "partners": 45,
+  "raions_covered": 37,
+  "sectors": [
+   {
+    "sector": "Basic needs",
+    "indicators": 8,
+    "indicators_with_target": 8,
+    "partners": 15,
+    "progress_pct": 61.8629
+   },
+   {
+    "sector": "Education",
+    "indicators": 10,
+    "indicators_with_target": 10,
+    "partners": 9,
+    "progress_pct": 45.6575
+   },
+   {
+    "sector": "Child Protection",
+    "indicators": 5,
+    "indicators_with_target": 5,
+    "partners": 11,
+    "progress_pct": 37.8231
+   },
+   {
+    "sector": "GBV",
+    "indicators": 3,
+    "indicators_with_target": 3,
+    "partners": 18,
+    "progress_pct": 36.4638
+   },
+   {
+    "sector": "Protection",
+    "indicators": 7,
+    "indicators_with_target": 6,
+    "partners": 17,
+    "progress_pct": 16.9024
+   },
+   {
+    "sector": "Livelihoods & Socio-Economic Inclusion",
+    "indicators": 4,
+    "indicators_with_target": 3,
+    "partners": 12,
+    "progress_pct": 14.3573
+   },
+   {
+    "sector": "Health & Nutrition",
+    "indicators": 9,
+    "indicators_with_target": 9,
+    "partners": 16,
+    "progress_pct": 11.9153
+   }
+  ]
+ },
+ "resources": [
+  {
+   "title": "Refugee Response Plan – Revised Moldova Country Chapter 2025–2026",
+   "lang": "EN",
+   "url": "https://data.unhcr.org/en/documents/details/120717"
+  },
+  {
+   "title": "Multidimensional and monetary poverty of Ukrainian refugees (HECA 2026)",
+   "lang": "EN",
+   "url": "https://data.unhcr.org/en/documents/details/124238"
+  },
+  {
+   "title": "Transitioning from TP in the Republic of Moldova",
+   "lang": "EN",
+   "url": "https://data.unhcr.org/en/documents/details/124225"
+  },
+  {
+   "title": "Funding Opportunities for Local CSOs in Moldova (September 2026)",
+   "lang": "EN",
+   "url": "https://data.unhcr.org/en/documents/details/124211"
+  }
+ ],
+ "dashboards": [
+  {
+   "title": "Ukrainian Refugees Web Story",
+   "text": "How people fled Ukraine, entered Moldova, moved on or returned, and built lives here.",
+   "url": "https://mdachim.github.io/moldova-refugee-story/"
+  },
+  {
+   "title": "RRP 2026 appeal",
+   "text": "Partner submissions for 2026: budgets by sector, district coverage and indicator targets.",
+   "url": "https://mdachim.github.io/appeal2026/"
+  }
+ ]
+}

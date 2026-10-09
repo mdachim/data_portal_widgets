@@ -1,0 +1,41 @@
+{
+  "rrp_funded": {
+    "pct": 27,
+    "note": "Entered by hand for now. Update pct here; the sync workflow carries it into operational.json.",
+    "updated": "2026-10-09"
+  },
+  "resources": [
+    {
+      "title": "Refugee Response Plan – Revised Moldova Country Chapter 2025–2026",
+      "lang": "EN",
+      "url": "https://data.unhcr.org/en/documents/details/120717"
+    },
+    {
+      "title": "Multidimensional and monetary poverty of Ukrainian refugees (HECA 2026)",
+      "lang": "EN",
+      "url": "https://data.unhcr.org/en/documents/details/124238"
+    },
+    {
+      "title": "Transitioning from TP in the Republic of Moldova",
+      "lang": "EN",
+      "url": "https://data.unhcr.org/en/documents/details/124225"
+    },
+    {
+      "title": "Funding Opportunities for Local CSOs in Moldova (September 2026)",
+      "lang": "EN",
+      "url": "https://data.unhcr.org/en/documents/details/124211"
+    }
+  ],
+  "dashboards": [
+    {
+      "title": "Ukrainian Refugees Web Story",
+      "text": "How people fled Ukraine, entered Moldova, moved on or returned, and built lives here.",
+      "url": "https://mdachim.github.io/moldova-refugee-story/"
+    },
+    {
+      "title": "RRP 2026 appeal",
+      "text": "Partner submissions for 2026: budgets by sector, district coverage and indicator targets.",
+      "url": "https://mdachim.github.io/appeal2026/"
+    }
+  ]
+}
