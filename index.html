@@ -101,18 +101,29 @@ a:hover{color:var(--blue-dark)}
 .res-m{font-size:12px;color:var(--ink-3);margin-top:auto;padding-top:2px}
 @media (max-width:420px){.res-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
 
-.pa-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
-.pa-big{font-size:36px;font-weight:900;color:var(--blue-dark);letter-spacing:-1px;line-height:1}
-.pa-cap{font-size:13px;color:var(--ink-2)}
-.pa-stats{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:13px;color:var(--ink-2);margin-bottom:14px}
-.pa-stats b{color:var(--ink)}
-.sec-row{display:grid;grid-template-columns:minmax(120px,210px) 1fr 44px;align-items:center;gap:6px 12px;padding:7px 0}
-.sec-name{font-size:14px;font-weight:700;line-height:1.3}
-.sec-meta{font-size:12px;font-weight:400;color:var(--ink-3)}
-.sec-track{height:14px;border-radius:7px;background:var(--blue-01);overflow:hidden}
-.sec-fill{height:100%;border-radius:7px;background:var(--blue)}
-.sec-pct{font-size:14px;font-weight:900;color:var(--blue-dark);text-align:right}
-.sec-pct.none{font-weight:400;color:var(--ink-3);font-size:12px}
+.pa-head{display:flex;justify-content:space-between;align-items:flex-start;gap:6px 16px;flex-wrap:wrap;margin-bottom:12px}
+.pa-head a{font-size:13px;font-weight:700;white-space:nowrap}
+.pa{display:grid;grid-template-columns:190px minmax(0,1fr);gap:8px 28px;align-items:center}
+.pa-side{border-right:1px solid var(--line);padding-right:20px}
+.pa-big{display:block;font-size:44px;font-weight:900;color:var(--blue-dark);letter-spacing:-1.5px;line-height:1}
+.pa-cap{display:block;font-size:12px;color:var(--ink-2);margin:2px 0 10px}
+.pa-stats{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--ink-2)}
+.pa-stats b{color:var(--ink);font-size:13px}
+.sec-row{display:grid;grid-template-columns:minmax(110px,170px) minmax(0,1fr) 40px;align-items:center;gap:10px;padding:4px 0}
+.sec-name{font-size:13px;font-weight:700;line-height:1.25}
+.sec-track{height:10px;border-radius:5px;background:var(--blue-01);overflow:hidden}
+.sec-fill{height:100%;border-radius:5px;background:var(--blue)}
+.sec-pct{font-size:13px;font-weight:900;color:var(--blue-dark);text-align:right}
+.sec-pct.none{font-weight:400;color:var(--ink-3);font-size:11px}
+details.how{margin-top:10px}
+details.how summary{cursor:pointer;font-size:12px;font-weight:700;color:var(--blue-dark)}
+details.how .note{margin-top:6px}
+@media (max-width:700px){
+  .pa{grid-template-columns:1fr}
+  .pa-side{border-right:0;padding-right:0;display:flex;align-items:baseline;gap:6px 14px;flex-wrap:wrap}
+  .pa-big{font-size:36px}.pa-cap{margin:0}
+  .pa-stats{flex-direction:row;flex-wrap:wrap;gap:2px 14px;flex-basis:100%}
+}
 
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--gap)}
 .tile{display:flex;flex-direction:column;gap:6px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
@@ -127,8 +138,7 @@ a:hover{color:var(--blue-dark)}
 @media (max-width:560px){
   .card{padding:16px}
   .chart-box{height:300px}
-  .sec-row{grid-template-columns:1fr 44px}
-  .sec-row .sec-track{grid-column:1 / -1;grid-row:2}
+  .sec-row{grid-template-columns:minmax(90px,120px) minmax(0,1fr) 38px;gap:8px}
 }
 </style>
 </head>
@@ -185,17 +195,21 @@ a:hover{color:var(--blue-dark)}
     </section>
 
     <section class="card" style="margin-top:var(--gap)" aria-labelledby="h-pa">
-      <div class="card-head" style="margin-bottom:10px">
+      <div class="pa-head">
         <div>
           <h2 id="h-pa">Partners’ achievements against 2026 targets</h2>
           <div class="csub" id="paSub"></div>
         </div>
+        <a href="https://mdachim.github.io/rrp_2026/" target="_blank" rel="noopener">Open the RRP 2026 partners’ dashboard ↗</a>
       </div>
-      <div class="pa-top"><span class="pa-big" id="paBig"></span><span class="pa-cap">overall progress against 2026 targets</span></div>
-      <div class="pa-stats" id="paStats"></div>
-      <div id="sectors"></div>
-      <div class="note" id="paNote"></div>
-      <div class="more"><a href="https://mdachim.github.io/rrp_2026/" target="_blank" rel="noopener">Open the RRP 2026 partners’ dashboard ↗</a></div>
+      <div class="pa">
+        <div class="pa-side">
+          <span class="pa-big" id="paBig"></span><span class="pa-cap">overall progress</span>
+          <div class="pa-stats" id="paStats"></div>
+        </div>
+        <div id="sectors"></div>
+      </div>
+      <details class="how"><summary>How progress is calculated</summary><div class="note" id="paNote"></div></details>
     </section>
 
     <div class="sec-title" style="margin-top:var(--gap)">More interactive dashboards</div>
@@ -347,7 +361,7 @@ function renderResources(){
 
 function renderPartners(){
   const p = D.partner_achievements, until = p.reported_until ? keyLong(p.reported_until) : null;
-  $('paSub').textContent = 'Progress by sector against 2026 targets' + (until ? `, partner reporting up to ${until}` : '');
+  $('paSub').textContent = 'Progress by sector' + (until ? `, partner reporting up to ${until}` : '');
   $('paBig').textContent = p.overall_progress_pct == null ? '–' : Math.round(p.overall_progress_pct) + '%';
   $('paStats').innerHTML =
     `<span><b>${p.indicators_with_target}</b> indicators with a target</span>` +
@@ -355,8 +369,8 @@ function renderPartners(){
     `<span><b>${p.raions_covered}</b> raions covered</span>`;
   $('sectors').innerHTML = p.sectors.map(s => {
     const has = s.progress_pct != null, pct = has ? Math.round(s.progress_pct) : 0;
-    return `<div class="sec-row">
-      <div class="sec-name">${esc(s.sector)}<div class="sec-meta">${s.indicators} indicator${s.indicators === 1 ? '' : 's'} · ${s.partners} partners</div></div>
+    return `<div class="sec-row" title="${esc(s.sector)}: ${s.indicators} indicator${s.indicators === 1 ? '' : 's'}, ${s.partners} partners">
+      <div class="sec-name">${esc(s.sector)}</div>
       <div class="sec-track" role="img" aria-label="${esc(s.sector)}: ${has ? pct + '% of target' : 'no target'}"><div class="sec-fill" style="width:${has ? Math.min(100, Math.max(1, s.progress_pct)) : 0}%"></div></div>
       <div class="sec-pct${has ? '' : ' none'}">${has ? pct + '%' : 'no target'}</div></div>`;
   }).join('');
