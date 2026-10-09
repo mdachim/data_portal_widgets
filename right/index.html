@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moldova refugee response: coordination</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&amp;display=swap" rel="stylesheet">
+<script>
+  if (window.self !== window.top) document.documentElement.classList.add('embedded');
+</script>
+<style>
+:root{
+  --blue:#0072BC; --blue-dark:#05568B; --blue-darkest:#0B3754; --blue-02:#8FC1E1; --blue-01:#CDE3F1; --yellow:#FFC740;
+  --ink:#242a2e; --ink-2:#4d565c; --ink-3:#5d676e;
+  --page:#eef2f5; --card:#fff; --line:#e3e8ec; --line-strong:#cfd7dd;
+  --gap:14px; --radius:10px; --shadow:0 2px 6px rgba(11,55,84,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Lato',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--page);color:var(--ink);line-height:1.5;padding:var(--gap)}
+.wrap{max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:var(--gap)}
+html.embedded,html.embedded body{height:100%;overflow:hidden}
+html.embedded body{padding:0}
+html.embedded .wrap{height:100%;max-width:none;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:var(--gap);display:block}
+html.embedded .wrap>*+*{margin-top:var(--gap)}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--blue-02);outline-offset:2px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;min-width:0}
+.card h2{font-size:16px;font-weight:900;line-height:1.3}
+.csub{font-size:13px;color:var(--ink-3);margin-top:2px}
+
+/* Help banner */
+.help{background:var(--blue);color:#fff;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+.help img{display:block;height:36px;width:auto;max-width:100%}
+.help p{font-size:14px;color:var(--blue-01);margin:10px 0 12px;line-height:1.4}
+.help .btns{display:flex;flex-direction:column;gap:8px}
+.btn{display:flex;justify-content:space-between;align-items:center;gap:10px;text-decoration:none;border-radius:8px;
+  padding:11px 14px;font-weight:900;font-size:15px;line-height:1.2}
+.btn small{display:block;font-weight:400;font-size:12px;margin-top:2px}
+.btn.primary{background:var(--yellow);color:var(--blue-darkest)}
+.btn.primary:hover{background:#ffd266}
+.btn.secondary{background:transparent;color:#fff;border:1.5px solid var(--blue-02);font-weight:700;font-size:14px}
+.btn.secondary:hover{background:var(--blue-dark)}
+.btn .arr{font-size:18px;flex:none}
+
+/* Calendar */
+.cal-frame{position:relative;width:100%;aspect-ratio:16/9;margin-top:12px;border-radius:8px;overflow:hidden;background:var(--page);border:1px solid var(--line)}
+.cal-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.linkrow{margin-top:10px;font-size:13px;font-weight:700}
+
+/* Coordination tree */
+.tree{list-style:none;margin-top:12px}
+.tree ul{list-style:none;margin:6px 0 0 14px;padding-left:12px;border-left:2px solid var(--blue-01)}
+.tree li+li{margin-top:6px}
+.tree ul>li{position:relative}
+.tree ul>li::before{content:"";position:absolute;left:-12px;top:20px;width:10px;border-top:2px solid var(--blue-01)}
+.node{display:flex;justify-content:space-between;align-items:center;gap:8px;text-decoration:none;color:var(--ink);
+  background:var(--page);border:1px solid var(--line);border-left:4px solid var(--blue-02);border-radius:8px;
+  padding:9px 10px;font-size:14px;font-weight:700;line-height:1.3;overflow-wrap:anywhere}
+.node:hover{background:var(--blue-01);border-color:var(--blue-02)}
+.node .ext{color:var(--blue);font-size:13px;flex:none}
+.node.root{background:var(--blue-darkest);border-color:var(--blue-darkest);color:#fff;font-size:15px;font-weight:900;border-left:4px solid var(--yellow)}
+.node.root:hover{background:var(--blue-dark)}
+.node.root .ext{color:var(--yellow)}
+.node.wg{background:var(--blue-01);border-left-color:var(--blue);color:var(--blue-darkest)}
+.node.wg:hover{background:#b9d6ea}
+.node.sub{font-weight:400;background:#fff}
+.node.sub:hover{background:var(--blue-01)}
+.tree>li+li{margin-top:8px}
+.tree-label{font-size:12px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);margin:14px 0 6px}
+.sep{border-top:1px dashed var(--line-strong);margin-top:14px;padding-top:14px}
+.node.special{background:#fff;border-left-color:var(--yellow)}
+
+/* RRP logo */
+.logo-card{padding:12px 14px}
+.logo-card img{display:block;width:100%;height:auto;max-width:420px;margin:0 auto}
+.foot{font-size:12px;color:var(--ink-3);text-align:center;padding:2px 0 4px}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <!-- Help banner. Edit the two URLs below if the help pages move. -->
+  <section class="help" aria-label="UNHCR Help">
+    <img src="assets/unhcr-help.svg" alt="UNHCR, the UN Refugee Agency">
+    <p>Information and services for refugees from Ukraine in Moldova.</p>
+    <div class="btns">
+      <a class="btn primary" id="help-ukr" href="https://help.unhcr.org/moldova/uk/" target="_blank" rel="noopener">
+        <span>Допомога для біженців з України<small>UNHCR Help Moldova, in Ukrainian</small></span><span class="arr" aria-hidden="true">↗</span></a>
+      <a class="btn secondary" id="help-en" href="https://help.unhcr.org/moldova/" target="_blank" rel="noopener">
+        <span>UNHCR Help Moldova (English)</span><span class="arr" aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+
+  <!-- Coordination calendar -->
+  <section class="card" aria-labelledby="cal-h">
+    <h2 id="cal-h">Coordination calendar</h2>
+    <p class="csub">Upcoming coordination meetings and events.</p>
+    <div class="cal-frame">
+      <iframe id="cal" title="Coordination calendar"
+        src="https://docs.google.com/presentation/d/e/2PACX-1vScK7Paq6mfRXN28mPEfotaU3D5B-r979iNP1a-L2NEd-yBO0q70xJg-jbzTh2UwXrGBuLkeqBvi4cu/embed?start=false&amp;loop=false&amp;delayms=3000&amp;slide=id.g29d9704fb09_0_0"
+        loading="lazy" allowfullscreen></iframe>
+    </div>
+    <p class="linkrow"><a href="https://docs.google.com/presentation/d/e/2PACX-1vScK7Paq6mfRXN28mPEfotaU3D5B-r979iNP1a-L2NEd-yBO0q70xJg-jbzTh2UwXrGBuLkeqBvi4cu/pub?start=false&amp;loop=false&amp;delayms=3000&amp;slide=id.g29d9704fb09_0_0" target="_blank" rel="noopener">Open the calendar full screen ↗</a></p>
+  </section>
+
+  <!-- RRP + Government of Moldova -->
+  <section class="card logo-card" aria-label="Regional Refugee Response for the Ukraine Situation, Government of the Republic of Moldova">
+    <img src="assets/rrp-govt.jpg" alt="Government of the Republic of Moldova. Regional Refugee Response for the Ukraine Situation">
+  </section>
+
+  <!-- Coordination structure -->
+  <section class="card" aria-labelledby="co-h">
+    <h2 id="co-h">Coordination structure</h2>
+    <p class="csub">Select a group to open its page in the portal.</p>
+    <p class="linkrow"><a href="https://data.unhcr.org/en/documents/details/120418" target="_blank" rel="noopener">Coordination structure chart (Q1 2026) ↗</a></p>
+    <div id="tree"></div>
+  </section>
+
+
+</main>
+
+<script>
+(function(){
+  var BASE = 'https://data.unhcr.org/en/working-group/';
+  var QS = '?sv=54&geo=10784';
+  function wg(id, name, kids){ return {id:id, name:name, kids:kids||[]}; }
+
+  var structure = [
+    wg(316, 'Moldova: Refugee Coordination Forum', [
+      wg(381, 'Accountability to Affected People Task Force'),
+      wg(386, 'Local Refugee Coordination Forum')
+    ]),
+    wg(329, 'Protection Working Group', [
+      wg(336, 'Child Protection Sub-Sector Working Group'),
+      wg(337, 'Gender-Based Violence (GBV) Sub-Sector Working Group'),
+      wg(421, 'Disability and Age Task Force')
+    ]),
+    wg(490, 'Inclusion and Solutions Working Group', [
+      wg(319, 'Basic Needs Technical Working Group'),
+      wg(318, 'Cash Working Group')
+    ]),
+    wg(333, 'Health and Nutrition Working Group', [
+      wg(400, 'MHPSS Technical Reference Group')
+    ]),
+    wg(334, 'Education Working Group'),
+    wg(317, 'Information Management Working Group')
+  ];
+  var separate = [ wg(502, 'Moldova: Sergio Vieira de Mello') ];
+
+  function node(w, cls){
+    var a = document.createElement('a');
+    a.className = 'node ' + cls;
+    a.href = BASE + w.id + QS;
+    a.target = '_blank'; a.rel = 'noopener';
+    var s = document.createElement('span'); s.textContent = w.name;
+    var e = document.createElement('span'); e.className = 'ext'; e.setAttribute('aria-hidden','true'); e.textContent = '↗';
+    a.appendChild(s); a.appendChild(e);
+    return a;
+  }
+  function build(){
+    var host = document.getElementById('tree');
+    var root = document.createElement('ul'); root.className = 'tree';
+    structure.forEach(function(w, i){
+      var li = document.createElement('li');
+      li.appendChild(node(w, i === 0 ? 'root' : 'wg'));
+      if (w.kids.length){
+        var ul = document.createElement('ul');
+        w.kids.forEach(function(k){ var l = document.createElement('li'); l.appendChild(node(k, 'sub')); ul.appendChild(l); });
+        li.appendChild(ul);
+      }
+      root.appendChild(li);
+    });
+    host.appendChild(root);
+    var sepWrap = document.createElement('div'); sepWrap.className = 'sep';
+    separate.forEach(function(w){ sepWrap.appendChild(node(w, 'special')); });
+    host.appendChild(sepWrap);
+  }
+  build();
+})();
+</script>
+</body>
+</html>
