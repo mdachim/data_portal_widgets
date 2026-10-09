@@ -25,6 +25,7 @@ import json
 import re
 import sys
 import unicodedata
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -301,6 +302,50 @@ def build_achievements(rows, config_raw, targets_raw):
     }
 
 
+# ---------------------------------------------------------------- covers
+
+META_TAG = re.compile(r"<meta\b[^>]*>", re.I)
+ATTR = re.compile(r"""([\w:-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')""")
+
+
+def og_image(html):
+    for tag in META_TAG.findall(html):
+        attrs = {k.lower(): (v1 or v2) for k, v1, v2 in ATTR.findall(tag)}
+        if attrs.get("property", attrs.get("name", "")).lower() == "og:image" and attrs.get("content"):
+            return attrs["content"].strip()
+    return None
+
+
+def fetch_cover(url):
+    """Cover image of an ODP document page (its og:image), or None."""
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (data-portal-widgets)"})
+        with urllib.request.urlopen(req, timeout=20) as r:
+            html = r.read(600_000).decode("utf-8", "replace")
+    except Exception as exc:  # network trouble must never break the build
+        print(f"cover: could not read {url}: {exc}")
+        return None
+    img = og_image(html)
+    return img if img and img.startswith("https://") else None
+
+
+def add_covers(resources, previous, fetch=fetch_cover):
+    """Give every resource a `thumb`: one set by hand wins, then the one found
+    last time for the same link, then a fresh lookup. A resource whose cover
+    cannot be found simply has none (the page shows a placeholder)."""
+    known = {r.get("url"): r.get("thumb") for r in (previous or []) if r.get("thumb")}
+    out = []
+    for r in resources:
+        r = dict(r)
+        if not r.get("thumb"):
+            r.pop("thumb", None)
+            thumb = known.get(r["url"]) or fetch(r["url"])
+            if thumb:
+                r["thumb"] = thumb
+        out.append(r)
+    return out
+
+
 # ----------------------------------------------------------------------- merge
 
 def build_manual(manual):
@@ -335,6 +380,14 @@ def main():
         man = build_manual(load_json(a.manual))
     except SourceError as exc:
         sys.exit(f"build failed, output left untouched: {exc}")
+
+    previous = []
+    if Path(a.out).exists():
+        try:
+            previous = json.loads(Path(a.out).read_text(encoding="utf-8")).get("resources", [])
+        except ValueError:
+            pass
+    man["resources"] = add_covers(man["resources"], previous)
 
     out = {
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
