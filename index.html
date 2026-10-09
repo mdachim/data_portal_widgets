@@ -88,11 +88,11 @@ a:hover{color:var(--blue-dark)}
 .bd-num{font-size:14px;font-weight:700;color:var(--ink);text-align:right;white-space:nowrap}
 .bd-num span{font-weight:400;color:var(--ink-3);margin-left:6px;display:inline-block;min-width:30px}
 
-.res-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:var(--gap);margin-top:12px}
+.res-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,200px));justify-content:start;gap:var(--gap);margin-top:12px}
 .res{display:flex;flex-direction:column;height:100%;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);
   border-radius:10px;overflow:hidden;transition:box-shadow .15s,border-color .15s}
 .res:hover{border-color:var(--blue-02);box-shadow:0 4px 12px rgba(11,55,84,.15)}
-.res-cover{aspect-ratio:4/5;background:var(--blue-01);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--line)}
+.res-cover{aspect-ratio:5/7;background:var(--blue-01);display:flex;align-items:center;justify-content:center;overflow:hidden;border-bottom:1px solid var(--line)}
 .res-cover img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
 .res-cover svg{width:40px;height:48px;opacity:.85}
 .res-body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:4px;flex:1}
@@ -337,7 +337,7 @@ function renderResources(){
   const ok = u => /^https:\/\//i.test(u || '');
   $('resources').innerHTML = D.resources.map(r =>
     `<li><a class="res" href="${esc(r.url)}" target="_blank" rel="noopener">
-      <span class="res-cover">${ok(r.thumb) ? `<img src="${esc(r.thumb)}" alt="" loading="lazy">` : icon}</span>
+      <span class="res-cover">${ok(r.thumb) ? `<img src="${esc(r.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : icon}</span>
       <span class="res-body"><span class="res-t">${esc(r.title)}</span>
       <span class="res-m">${r.lang ? esc(r.lang) + ' · ' : ''}Open on ODP ↗</span></span></a></li>`).join('');
   // a cover that fails to load falls back to the document icon
