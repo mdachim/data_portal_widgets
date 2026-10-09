@@ -41,7 +41,9 @@ a:hover{color:var(--blue-dark)}
 .header .sub{font-size:14px;color:var(--blue-01);margin-top:2px}
 .header .asof{font-size:13px;color:var(--blue-01);white-space:nowrap}
 
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:var(--gap)}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap)}
+@media (max-width:720px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:330px){.kpis{grid-template-columns:minmax(0,1fr)}}
 .kpi{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border-left:4px solid var(--blue);
   padding:14px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
 .kpi .l{font-size:13px;font-weight:700;color:var(--ink-2);line-height:1.3}
