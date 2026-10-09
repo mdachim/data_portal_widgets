@@ -276,10 +276,18 @@ var DEFAULT_CONFIG = {
     }
   }
 
+  /* settings missing from config.json (e.g. an older copy) fall back to the built-in ones */
+  function merge(base, over){
+    if (!over || typeof over !== 'object' || Array.isArray(over) || !base || typeof base !== 'object' || Array.isArray(base)) return over === undefined ? base : over;
+    var out = {}; Object.keys(base).forEach(function(k){ out[k] = base[k]; });
+    Object.keys(over).forEach(function(k){ out[k] = merge(base[k], over[k]); });
+    return out;
+  }
+
   render(DEFAULT_CONFIG);
   if (location.protocol !== 'file:'){
     fetch('config.json', {cache:'no-cache'}).then(function(r){ if (!r.ok) throw 0; return r.json(); })
-      .then(render).catch(function(){ /* keep fallback */ });
+      .then(function(c){ render(merge(DEFAULT_CONFIG, c)); }).catch(function(){ /* keep fallback */ });
   }
 })();
 </script>
