@@ -1,5 +1,5 @@
 window.OPERATIONAL_DATA = {
- "generated": "2026-10-09T14:23:42Z",
+ "generated": "2026-10-09T07:04:40Z",
  "kpis": {
   "refugees_from_ukraine": {
    "value": 101365,
