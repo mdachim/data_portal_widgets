@@ -261,7 +261,7 @@ function renderKpis(){
   const card = (label, value, note, extra) =>
     `<div class="kpi"><div class="l">${label}</div><div class="v">${value}</div><div class="n">${note}</div>${extra || ''}</div>`;
   $('kpis').innerHTML =
-    card('Refugees from Ukraine in Moldova', fmt(rf.value), `Arrived directly from Ukraine · model estimate, ${esc(rf.label)}`) +
+    card('Refugees from Ukraine in Moldova', fmt(rf.value), `Arrived directly from Ukraine · ${esc(rf.label)}`) +
     card('Temporary protection beneficiaries', fmt(tp.value),
          (tp.new_in_interval != null ? `+${fmt(tp.new_in_interval)} in the latest interval · ` : 'Cumulative · ') + `IGM, ${longDate(tp.date)}`) +
     card('Border crossings, ' + esc(bc.label), fmt(bc.total), `${fmt(bc.arrivals)} arrivals · ${fmt(bc.departures)} departures`) +
@@ -339,7 +339,7 @@ function wireYears(){
 function renderWho(){
   const d = D.demographics, rows = [['women','Women','#0072BC'],['men','Men','#05568B'],['girls','Girls','#A097E3'],['boys','Boys','#6CD8FD']];
   const max = Math.max(...rows.map(r => d[r[0]]), 1);
-  $('whoSub').textContent = `${fmt(d.total)} refugees from Ukraine staying in Moldova · model estimate, ${d.label}`;
+  $('whoSub').textContent = `${fmt(d.total)} refugees from Ukraine staying in Moldova · ${d.label}`;
   $('who').innerHTML = rows.map(([k,label,col]) =>
     `<div class="bd-row"><div class="bd-name">${label}</div>
       <div class="bd-track"><div class="bd-fill" style="width:${d[k]/max*100}%;background:${col}"></div></div>
@@ -388,7 +388,7 @@ function renderMeta(){
   $('asof').textContent = 'Updated ' + longDate(D.generated.slice(0,10));
   $('flowSource').innerHTML = `Source: ${esc(pm.source || 'Border Police')}, ${first} – ${last}.` +
     (pm.methodology_note ? ' ' + esc(pm.methodology_note) : '');
-  $('footer').innerHTML = 'Sources: Border Police (cross-border flows and population estimates) · IGM (temporary protection) · partner reporting in ActivityInfo (RRP 2026) · RRP funding entered manually.';
+  $('footer').innerHTML = 'Sources: Border Police (cross-border flows and population estimates) · IGM (temporary protection) · partner reporting in ActivityInfo (RRP 2026)';
 }
 
 /* Hosted (http/https): read the JSON. Opened from disk (file://), browsers block
