@@ -4,7 +4,7 @@ name: Sync operational data
 # data/operational.json and commits it when something changed.
 on:
   schedule:
-    - cron: "17 */6 * * *"      # every 6 hours
+    - cron: "17 16 * * 1"        # Mondays 16:17 UTC (evening in Moldova)
   workflow_dispatch:             # "Run workflow" button
   repository_dispatch:           # optional: a source repo can ping this one
     types: [source-updated]
