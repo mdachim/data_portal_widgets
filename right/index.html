@@ -30,6 +30,14 @@ a{color:var(--blue)}
 .card h2{font-size:16px;font-weight:900;line-height:1.3}
 .csub{font-size:13px;color:var(--ink-3);margin-top:2px}
 
+/* Who the refugees are */
+.bd-row{display:grid;grid-template-columns:50px 1fr auto;align-items:center;gap:10px;padding:2px 0}
+.bd-name{font-size:14px;font-weight:700;color:var(--ink-2)}
+.bd-track{height:14px;border-radius:7px;background:#f1f4f6;overflow:hidden}
+.bd-fill{height:100%;border-radius:7px}
+.bd-num{font-size:14px;font-weight:700;color:var(--ink);text-align:right;white-space:nowrap}
+.bd-num span{font-weight:400;color:var(--ink-3);margin-left:6px;display:inline-block;min-width:30px}
+
 /* Help banner */
 .help{background:var(--blue);color:#fff;border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
 .help img{display:block;height:36px;width:auto;max-width:100%}
@@ -82,6 +90,12 @@ a{color:var(--blue)}
 </head>
 <body>
 <main class="wrap">
+
+  <section class="card" aria-labelledby="h-who" id="who-card" hidden>
+    <h2 id="h-who">Who the refugees are</h2>
+    <div class="csub" id="whoSub"></div>
+    <div id="who" style="margin-top:4px"></div>
+  </section>
 
   <section class="help" aria-label="UNHCR Help" id="help">
     <img src="assets/unhcr-help.svg" alt="UNHCR, the UN Refugee Agency">
@@ -283,6 +297,32 @@ var DEFAULT_CONFIG = {
     Object.keys(over).forEach(function(k){ out[k] = merge(base[k], over[k]); });
     return out;
   }
+
+  /* Population profile comes from ../data/operational.json (file:// preview: ../data/operational.js) */
+  var fmt = function(n){ return Math.round(n).toLocaleString('en-US'); };
+  function renderWho(D){
+    var d = D.demographics, rows = [['women','Women','#0072BC'],['men','Men','#05568B'],['girls','Girls','#A097E3'],['boys','Boys','#6CD8FD']];
+    var max = Math.max.apply(null, rows.map(function(r){ return d[r[0]]; }).concat(1));
+    $('whoSub').textContent = fmt(d.total) + ' refugees from Ukraine staying in Moldova · ' + d.label;
+    $('who').innerHTML = rows.map(function(r){
+      return '<div class="bd-row"><div class="bd-name">' + r[1] + '</div>' +
+        '<div class="bd-track"><div class="bd-fill" style="width:' + (d[r[0]] / max * 100) + '%;background:' + r[2] + '"></div></div>' +
+        '<div class="bd-num">' + fmt(d[r[0]]) + '<span>' + Math.round(d[r[0]] / d.total * 100) + '%</span></div></div>';
+    }).join('');
+    $('who-card').hidden = false;
+  }
+  function loadWho(){
+    if (location.protocol === 'file:'){
+      var s = document.createElement('script');
+      s.src = '../data/operational.js';
+      s.onload = function(){ if (window.OPERATIONAL_DATA) renderWho(window.OPERATIONAL_DATA); };
+      document.head.appendChild(s);
+      return;
+    }
+    fetch('../data/operational.json', {cache:'no-store'}).then(function(r){ if (!r.ok) throw 0; return r.json(); })
+      .then(renderWho).catch(function(){ /* card stays hidden */ });
+  }
+  loadWho();
 
   render(DEFAULT_CONFIG);
   if (location.protocol !== 'file:'){

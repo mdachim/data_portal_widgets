@@ -57,8 +57,6 @@ a:hover{color:var(--blue-dark)}
 .card .csub{font-size:13px;color:var(--ink-3);margin-top:2px}
 .card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px 16px;flex-wrap:wrap;margin-bottom:14px}
 .card-head .csub{max-width:560px}
-.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--gap)}
-.two>.card{display:flex;flex-direction:column}
 
 .year-nav{display:flex;align-items:center;gap:8px;white-space:nowrap}
 .tl-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--line-strong);background:#fff;
@@ -80,13 +78,6 @@ a:hover{color:var(--blue-dark)}
 .note{font-size:12px;color:var(--ink-3);line-height:1.6;margin-top:12px}
 .note b{color:var(--ink-2)}
 .more{font-size:13px;font-weight:700;margin-top:10px}
-
-.bd-row{display:grid;grid-template-columns:62px 1fr auto;align-items:center;gap:10px;padding:6px 0}
-.bd-name{font-size:14px;font-weight:700;color:var(--ink-2)}
-.bd-track{height:14px;border-radius:7px;background:#f1f4f6;overflow:hidden}
-.bd-fill{height:100%;border-radius:7px}
-.bd-num{font-size:14px;font-weight:700;color:var(--ink);text-align:right;white-space:nowrap}
-.bd-num span{font-weight:400;color:var(--ink-3);margin-left:6px;display:inline-block;min-width:30px}
 
 .res-list{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,210px));justify-content:start;gap:var(--gap);margin-top:12px}
 .res{display:flex;flex-direction:column;height:100%;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);
@@ -179,14 +170,6 @@ details.how .note{margin-top:6px}
       <div class="note" id="flowSource"></div>
       <div class="more"><a href="https://data.unhcr.org/en/dataviz/248?sv=54&amp;geo=10784" target="_blank" rel="noopener">Open the full Population Trends dashboard ↗</a></div>
     </section>
-
-    <div class="two" style="margin-top:var(--gap)">
-      <section class="card" aria-labelledby="h-who">
-        <h2 id="h-who">Who the refugees are</h2>
-        <div class="csub" id="whoSub"></div>
-        <div id="who" style="margin-top:10px"></div>
-      </section>
-    </div>
 
     <section class="card" style="margin-top:var(--gap)" aria-labelledby="h-res">
       <h2 id="h-res">Key resources</h2>
@@ -336,16 +319,6 @@ function wireYears(){
   $('yrAll').onclick = () => { chartYear = null; updateChart(); };
 }
 
-function renderWho(){
-  const d = D.demographics, rows = [['women','Women','#0072BC'],['men','Men','#05568B'],['girls','Girls','#A097E3'],['boys','Boys','#6CD8FD']];
-  const max = Math.max(...rows.map(r => d[r[0]]), 1);
-  $('whoSub').textContent = `${fmt(d.total)} refugees from Ukraine staying in Moldova · ${d.label}`;
-  $('who').innerHTML = rows.map(([k,label,col]) =>
-    `<div class="bd-row"><div class="bd-name">${label}</div>
-      <div class="bd-track"><div class="bd-fill" style="width:${d[k]/max*100}%;background:${col}"></div></div>
-      <div class="bd-num">${fmt(d[k])}<span>${Math.round(d[k]/d.total*100)}%</span></div></div>`).join('');
-}
-
 function renderResources(){
   const icon = '<svg viewBox="0 0 20 24" fill="none" aria-hidden="true"><path d="M2 1h10l6 6v16H2z" stroke="#0072BC" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 1v6h6M5 12h10M5 16h10M5 20h6" stroke="#0072BC" stroke-width="1.6" stroke-linecap="round"/></svg>';
   const ok = u => /^https:\/\//i.test(u || '');
@@ -413,7 +386,7 @@ loadData()
     YEARS = [...new Set(M.map(m => yearOf(m.key)))].sort((a,b) => a-b);
     chartYear = YEARS[YEARS.length - 1];
     computeCover();
-    renderKpis(); renderWho(); renderResources(); renderPartners(); renderTiles(); renderMeta();
+    renderKpis(); renderResources(); renderPartners(); renderTiles(); renderMeta();
     $('loading').hidden = true; $('content').hidden = false;
     buildChart(); wireYears(); updateChart();
   })
