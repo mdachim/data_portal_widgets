@@ -1,8 +1,8 @@
 {
   "rrp_funded": {
-    "pct": 27,
+    "pct": 31,
     "note": "Entered by hand for now. Update pct here; the sync workflow carries it into operational.json.",
-    "updated": "2026-10-09"
+    "updated": "2026-10-15"
   },
   "resources": [
     {
