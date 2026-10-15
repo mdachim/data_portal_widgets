@@ -1,5 +1,5 @@
 window.OPERATIONAL_DATA = {
- "generated": "2026-10-09T07:04:40Z",
+ "generated": "2026-10-15T12:58:10Z",
  "kpis": {
   "refugees_from_ukraine": {
    "value": 101365,
@@ -20,9 +20,9 @@ window.OPERATIONAL_DATA = {
    "source": "IGM"
   },
   "rrp_funded": {
-   "pct": 27,
+   "pct": 31,
    "note": "Entered by hand for now. Update pct here; the sync workflow carries it into operational.json.",
-   "updated": "2026-10-09"
+   "updated": "2026-10-15"
   }
  },
  "population_trends": {
