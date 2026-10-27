@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-15T12:58:10Z",
+ "generated": "2026-10-27T09:23:27Z",
  "kpis": {
   "refugees_from_ukraine": {
    "value": 101365,
@@ -20,9 +20,9 @@
    "source": "IGM"
   },
   "rrp_funded": {
-   "pct": 31,
+   "pct": 37,
    "note": "Entered by hand for now. Update pct here; the sync workflow carries it into operational.json.",
-   "updated": "2026-10-15"
+   "updated": "2026-10-27"
   }
  },
  "population_trends": {
@@ -502,10 +502,10 @@
    "thumb": "https://amzirlodp-prd-s3.s3.amazonaws.com/documents/images/big_b58c39fef18eb379abceda33abe50b1548a108f3.jpg"
   },
   {
-   "title": "Funding Opportunities for Local CSOs in Moldova (September 2026)",
+   "title": "Funding Opportunities for Local CSOs in Moldova (October 2026)",
    "lang": "EN",
-   "url": "https://data.unhcr.org/en/documents/details/124211",
-   "thumb": "https://amzirlodp-prd-s3.s3.amazonaws.com/documents/images/big_20941a224a12b99f67835e2d3a24ac532213eb57.jpg"
+   "url": "https://data.unhcr.org/en/documents/details/124590",
+   "thumb": "https://amzirlodp-prd-s3.s3.amazonaws.com/documents/images/big_e2de8573248132a111f03791f1947e7c306700bc.jpg"
   }
  ],
  "dashboards": [
