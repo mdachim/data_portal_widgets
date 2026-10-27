@@ -249,7 +249,7 @@ function renderKpis(){
     `<div class="kpi"><div class="l">${label}</div><div class="v">${value}</div><div class="n">${note}</div>${extra || ''}</div>`;
   $('kpis').innerHTML =
     card('Refugees from Ukraine in Moldova', fmt(rf.value),
-         `Only those who arrived directly from Ukraine, out of <b>${fmt(totalRemaining)}</b> refugees remaining in Moldova in total · ${esc(rf.label)}`) +
+         `Of <b>${fmt(totalRemaining)}</b> total · only arrivals directly from Ukraine · ${esc(rf.label)}`) +
     card('Temporary protection beneficiaries', fmt(tp.value),
          (tp.new_in_interval != null ? `+${fmt(tp.new_in_interval)} in the latest interval · ` : 'Cumulative · ') + `IGM, ${longDate(tp.date)}`) +
     card('Border crossings, ' + esc(bc.label), fmt(bc.total), `${fmt(bc.arrivals)} arrivals · ${fmt(bc.departures)} departures`) +
