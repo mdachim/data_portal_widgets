@@ -77,7 +77,10 @@ a:hover{color:var(--blue-dark)}
 .lg .sw.line{height:3px;width:18px;border-radius:2px}
 .note{font-size:12px;color:var(--ink-3);line-height:1.6;margin-top:12px}
 .note b{color:var(--ink-2)}
-.more{font-size:13px;font-weight:700;margin-top:10px}
+.more{margin-top:14px;padding:12px 14px;background:var(--blue-01);border-left:4px solid var(--blue);border-radius:6px;font-size:13px;color:var(--ink-2);line-height:1.5;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;justify-content:space-between}
+.more a{display:inline-block;background:var(--blue);color:#fff;font-weight:700;text-decoration:none;padding:8px 14px;border-radius:6px;white-space:nowrap}
+.more a:hover{background:var(--blue-dark);color:#fff}
+.kpi .n b{color:var(--ink-2)}
 
 .res-list{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,210px));justify-content:start;gap:var(--gap);margin-top:12px}
 .res{display:flex;flex-direction:column;height:100%;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);
@@ -168,7 +171,7 @@ details.how .note{margin-top:6px}
       </div>
       <div class="note" id="chartNote" hidden>* A month marked with <b>*</b> also carries the preceding month(s) that had no separate report — its bar is a combined figure. Hover a bar for details.</div>
       <div class="note" id="flowSource"></div>
-      <div class="more"><a href="https://data.unhcr.org/en/dataviz/248?sv=54&amp;geo=10784" target="_blank" rel="noopener">Open the full Population Trends dashboard ↗</a></div>
+      <div class="more"><span>This chart is a summary. For full details, visit the full UNHCR dashboard.</span><a href="https://data.unhcr.org/en/dataviz/248?sv=54&amp;geo=10784" target="_blank" rel="noopener">Open the full Population Trends dashboard ↗</a></div>
     </section>
 
     <section class="card" style="margin-top:var(--gap)" aria-labelledby="h-res">
@@ -240,11 +243,13 @@ function computeCover(){
 }
 
 function renderKpis(){
+  const totalRemaining = M[M.length-1].remaining;
   const k = D.kpis, bc = k.border_crossings, tp = k.tp_beneficiaries, rf = k.refugees_from_ukraine, fu = k.rrp_funded;
   const card = (label, value, note, extra) =>
     `<div class="kpi"><div class="l">${label}</div><div class="v">${value}</div><div class="n">${note}</div>${extra || ''}</div>`;
   $('kpis').innerHTML =
-    card('Refugees from Ukraine in Moldova', fmt(rf.value), `Arrived directly from Ukraine · ${esc(rf.label)}`) +
+    card('Refugees from Ukraine in Moldova', fmt(rf.value),
+         `Only those who arrived directly from Ukraine, out of <b>${fmt(totalRemaining)}</b> refugees remaining in Moldova in total · ${esc(rf.label)}`) +
     card('Temporary protection beneficiaries', fmt(tp.value),
          (tp.new_in_interval != null ? `+${fmt(tp.new_in_interval)} in the latest interval · ` : 'Cumulative · ') + `IGM, ${longDate(tp.date)}`) +
     card('Border crossings, ' + esc(bc.label), fmt(bc.total), `${fmt(bc.arrivals)} arrivals · ${fmt(bc.departures)} departures`) +
