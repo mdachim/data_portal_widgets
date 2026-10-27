@@ -77,8 +77,8 @@ a:hover{color:var(--blue-dark)}
 .lg .sw.line{height:3px;width:18px;border-radius:2px}
 .note{font-size:12px;color:var(--ink-3);line-height:1.6;margin-top:12px}
 .note b{color:var(--ink-2)}
-.more{margin-top:14px;padding:12px 14px;background:var(--blue-01);border-left:4px solid var(--blue);border-radius:6px;font-size:13px;color:var(--ink-2);line-height:1.5;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;justify-content:space-between}
-.more a{display:inline-block;background:var(--blue);color:#fff;font-weight:700;text-decoration:none;padding:8px 14px;border-radius:6px;white-space:nowrap}
+.more{margin-top:10px;padding:8px 12px;background:var(--blue-01);border-left:4px solid var(--blue);border-radius:6px;font-size:13px;color:var(--ink-2);line-height:1.5;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;justify-content:space-between}
+.more a{display:inline-block;background:var(--blue);color:#fff;font-weight:700;text-decoration:none;padding:6px 12px;border-radius:6px;white-space:nowrap}
 .more a:hover{background:var(--blue-dark);color:#fff}
 .kpi .n b{color:var(--ink-2)}
 
@@ -248,8 +248,8 @@ function renderKpis(){
   const card = (label, value, note, extra) =>
     `<div class="kpi"><div class="l">${label}</div><div class="v">${value}</div><div class="n">${note}</div>${extra || ''}</div>`;
   $('kpis').innerHTML =
-    card('Refugees from Ukraine in Moldova', fmt(rf.value),
-         `Of <b>${fmt(totalRemaining)}</b> total · only arrivals directly from Ukraine · ${esc(rf.label)}`) +
+    card('Refugees from Ukraine in Moldova, ' + esc(rf.label), fmt(rf.value),
+         `Only direct arrivals from Ukraine, of <b>${fmt(totalRemaining)}</b> total`) +
     card('Temporary protection beneficiaries', fmt(tp.value),
          (tp.new_in_interval != null ? `+${fmt(tp.new_in_interval)} in the latest interval · ` : 'Cumulative · ') + `IGM, ${longDate(tp.date)}`) +
     card('Border crossings, ' + esc(bc.label), fmt(bc.total), `${fmt(bc.arrivals)} arrivals · ${fmt(bc.departures)} departures`) +
