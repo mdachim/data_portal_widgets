@@ -1,5 +1,5 @@
 window.OPERATIONAL_DATA = {
- "generated": "2026-10-27T09:23:27Z",
+ "generated": "2026-10-27T09:49:18Z",
  "kpis": {
   "refugees_from_ukraine": {
    "value": 101365,
@@ -424,61 +424,61 @@ window.OPERATIONAL_DATA = {
   "boys": 24159
  },
  "partner_achievements": {
-  "reported_until": "2026-06",
-  "overall_progress_pct": 28.1744,
+  "reported_until": "2026-09",
+  "overall_progress_pct": 30.5139,
   "indicators_reported": 46,
   "indicators_with_target": 44,
-  "partners": 45,
+  "partners": 50,
   "raions_covered": 37,
   "sectors": [
    {
     "sector": "Basic needs",
     "indicators": 8,
     "indicators_with_target": 8,
-    "partners": 15,
-    "progress_pct": 61.8629
+    "partners": 16,
+    "progress_pct": 63.9055
    },
    {
     "sector": "Education",
     "indicators": 10,
     "indicators_with_target": 10,
-    "partners": 9,
+    "partners": 10,
     "progress_pct": 45.6575
-   },
-   {
-    "sector": "Child Protection",
-    "indicators": 5,
-    "indicators_with_target": 5,
-    "partners": 11,
-    "progress_pct": 37.8231
    },
    {
     "sector": "GBV",
     "indicators": 3,
     "indicators_with_target": 3,
-    "partners": 18,
-    "progress_pct": 36.4638
+    "partners": 22,
+    "progress_pct": 43.8322
+   },
+   {
+    "sector": "Child Protection",
+    "indicators": 5,
+    "indicators_with_target": 5,
+    "partners": 12,
+    "progress_pct": 39.2021
    },
    {
     "sector": "Protection",
     "indicators": 7,
     "indicators_with_target": 6,
-    "partners": 17,
-    "progress_pct": 16.9024
+    "partners": 18,
+    "progress_pct": 23.9275
    },
    {
     "sector": "Livelihoods & Socio-Economic Inclusion",
     "indicators": 4,
     "indicators_with_target": 3,
     "partners": 12,
-    "progress_pct": 14.3573
+    "progress_pct": 15.059
    },
    {
     "sector": "Health & Nutrition",
     "indicators": 9,
     "indicators_with_target": 9,
-    "partners": 16,
-    "progress_pct": 11.9153
+    "partners": 17,
+    "progress_pct": 12.3362
    }
   ]
  },
