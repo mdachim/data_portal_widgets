@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-27T09:49:18Z",
+ "generated": "2026-11-17T00:14:54Z",
  "kpis": {
   "refugees_from_ukraine": {
    "value": 101365,
@@ -14,9 +14,9 @@
    "total": 148433
   },
   "tp_beneficiaries": {
-   "value": 60256,
-   "date": "2026-10-04",
-   "new_in_interval": 559,
+   "value": 62673,
+   "date": "2026-11-08",
+   "new_in_interval": 411,
    "source": "IGM"
   },
   "rrp_funded": {
